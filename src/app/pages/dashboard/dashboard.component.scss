@@ -1,0 +1,13 @@
+.card-title{
+  font-size: 18px;
+  font-weight: bold;
+}
+.card-text{
+  font-size: 16px;
+}
+.card-text,.card-title{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
