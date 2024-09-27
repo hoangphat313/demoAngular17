@@ -1,11 +1,13 @@
 <div *ngIf="post" class="post-container">
   <h1 class="post-title">{{post.title}}</h1>
-  <p class="post-content">{{post.content}}</p>
   <p class="post-author"><strong>Tác giả:</strong> {{post.author}}</p>
   <div class="image-container">
     <div *ngFor="let image of post.images">
       <img [src]="image" alt="image of {{post.title}}" class="post-image">
     </div>
+  </div>
+  <div class="post-content">
+    <p *ngFor="let paragraph of formattedContent">{{paragraph}}</p>
   </div>
 </div>
 <div *ngIf="!post" class="not-found">

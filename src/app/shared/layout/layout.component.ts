@@ -49,6 +49,9 @@ export class LayoutComponent implements OnInit {
   toggleAdmin() {
     if (this.user.isAdmin) {
       this.router.navigate(['profile']);
-    } else this.notificationService.showNotification('You are not authorized');
+    } else
+      this.notificationService.showNotification(
+        'You are not authorized to access this page'
+      );
   }
 }
