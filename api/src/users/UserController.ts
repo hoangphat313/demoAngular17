@@ -18,7 +18,12 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
   }
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new UserSchema({ name, email, password: hashedPassword });
+    const newUser = new UserSchema({
+      name,
+      email,
+      password: hashedPassword,
+      isAdmin: false,
+    });
     await newUser.save();
     res.status(200).json({
       status: true,
@@ -51,7 +56,12 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     return res.status(200).json({
       status: true,
       message: 'Logged in successfully',
-      data: { _id: user._id, email: user.email, name: user.name },
+      data: {
+        _id: user._id,
+        email: user.email,
+        name: user.name,
+        isAdmin: user.isAdmin,
+      },
       token,
     });
   } catch (error) {
@@ -65,7 +75,12 @@ const me = async (req: Request, res: Response, next: NextFunction) => {
   if (user) {
     return res.status(200).json({
       status: true,
-      data: { _id: user._id, email: user.email, name: user.name },
+      data: {
+        _id: user._id,
+        email: user.email,
+        name: user.name,
+        isAdmin: user.isAdmin,
+      },
     });
   }
   return res.status(500).json({ message: 'Something went wrong' });

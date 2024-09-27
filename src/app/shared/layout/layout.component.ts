@@ -9,6 +9,7 @@ import {
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { User } from '../../core/model/common.model';
+import { NotificationService } from '../notifications/notification.service';
 
 @Component({
   selector: 'app-layout',
@@ -19,6 +20,7 @@ import { User } from '../../core/model/common.model';
 })
 export class LayoutComponent implements OnInit {
   authService = inject(AuthService);
+  notificationService = inject(NotificationService);
   isLoggedIn = this.authService.isLoggedIn();
   injector = inject(Injector);
   user!: User;
@@ -44,7 +46,9 @@ export class LayoutComponent implements OnInit {
   logout() {
     this.authService.logout();
   }
-  toggleProfile() {
-    this.router.navigate(['profile']);
+  toggleAdmin() {
+    if (this.user.isAdmin) {
+      this.router.navigate(['profile']);
+    } else this.notificationService.showNotification('You are not authorized');
   }
 }

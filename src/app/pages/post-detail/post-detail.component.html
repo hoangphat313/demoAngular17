@@ -1,11 +1,13 @@
-<div *ngIf="post">
-  <h1> {{post.title}}</h1>
-  <p>{{post.content}}</p>
-  <p><strong>Author:</strong>{{post.author}}</p>
-  <div *ngFor="let image of post.images">
-    <img [src]="image" alt="image of {{post.title}}">
+<div *ngIf="post" class="post-container">
+  <h1 class="post-title">{{post.title}}</h1>
+  <p class="post-content">{{post.content}}</p>
+  <p class="post-author"><strong>Tác giả:</strong> {{post.author}}</p>
+  <div class="image-container">
+    <div *ngFor="let image of post.images">
+      <img [src]="image" alt="image of {{post.title}}" class="post-image">
+    </div>
   </div>
 </div>
-<div *ngIf="!post">
+<div *ngIf="!post" class="not-found">
   <p>Post not found</p>
 </div>

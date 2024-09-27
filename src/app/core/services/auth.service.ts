@@ -17,7 +17,7 @@ import { NotificationService } from '../../shared/notifications/notification.ser
 export class AuthService {
   router = inject(Router);
   isLoggedIn = signal<boolean>(false);
-
+  isAdmin = signal<boolean>(false);
   constructor(
     private _http: HttpClient,
     private notificationService: NotificationService
@@ -46,6 +46,9 @@ export class AuthService {
             this.notificationService.showNotification('Login successful');
             localStorage.setItem(LocalStorage.token, response.token);
             this.isLoggedIn.update(() => true);
+            if (response.data.isAdmin) {
+              this.isAdmin.update(() => true);
+            }
           }
           return response;
         })
