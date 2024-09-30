@@ -43,4 +43,11 @@ export class PostService {
       `${ApiEndpoint.Post.DeletePost}?id=${id}`
     );
   }
+  searchPost(
+    searchTerm: string
+  ): Observable<{ success: boolean; message: string; data: Post[] }> {
+    return this._http.get<{ success: boolean; message: string; data: Post[] }>(
+      `${ApiEndpoint.Post.SearchPost}?name=${searchTerm}`
+    );
+  }
 }

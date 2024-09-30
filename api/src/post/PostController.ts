@@ -65,5 +65,30 @@ const deletePost = async (req: Request, res: Response, next: NextFunction) => {
     res.status(400).json({ success: false, error: error });
   }
 };
-
-export { createPost, updatePost, deletePost, getAllPosts, getPostById };
+const searchPost = async (req: Request, res: Response, next: NextFunction) => {
+  const searchTerm = req.query.name;
+  if (!searchTerm) {
+    return res
+      .status(400)
+      .json({ success: false, message: 'Please provide search term' });
+  }
+  try {
+    const filterPost = await Post.find({
+      $or: [{ title: { $regex: searchTerm, $options: 'i' } }],
+    });
+    return res.status(200).json({ success: true, data: filterPost });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ success: false, error: 'Something went wrong' });
+  }
+};
+export {
+  createPost,
+  updatePost,
+  deletePost,
+  getAllPosts,
+  getPostById,
+  searchPost,
+};

@@ -1,26 +1,26 @@
 <div class="d-flex justify-content-center">
   <div class="card" style="width: 26rem;">
     <div class="card-body">
-      <h5 class="card-title mb-3">Register</h5>
+      <h5 class="card-title mb-3">Đăng Ký</h5>
       <form action="" [formGroup]="form" (submit)="onSubmit()">
         <div class="mb-3">
-          <label for="name" class="form-label">Your name</label>
-          <input type="text" class="form-control" formControlName="name" name="" placeholder="Enter your name...">
+          <label for="name" class="form-label">Tên</label>
+          <input type="text" class="form-control" formControlName="name" name="" placeholder="Vui lòng nhập tên...">
         </div>
         <div class="mb-3">
           <label for=" email" class="form-label">Email</label>
-          <input type="email" class="form-control" formControlName="email" name="" placeholder="Enter the email...">
+          <input type="email" class="form-control" formControlName="email" name="" placeholder="Vui lòng nhập email...">
         </div>
         <div class="mb-3 position-relative">
-          <label for="password" class="form-label">Password</label>
+          <label for="password" class="form-label">Mật khẩu</label>
           <input [type]="isPasswordVisible ? 'text':'password'" class="form-control" formControlName="password" name=""
-            placeholder="Enter the password...">
+            placeholder="Vui lòng nhập mật khẩu...">
           <button type="button" (click)="togglePasswordVisibility()"
             class="btn btn-outline-secondary  position-absolute btn-toggle-password ">
-            {{isPasswordVisible?'Hide':'Show'}}
+            {{isPasswordVisible?'Ẩn':'Hiện'}}
           </button>
         </div>
-        <button [disabled]="form.invalid" type="submit" class="btn btn-success">Login</button>
+        <button [disabled]="form.invalid" type="submit" class="btn btn-success">Xác Nhận</button>
       </form>
     </div>
   </div>

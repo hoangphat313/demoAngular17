@@ -25,13 +25,11 @@ export class PostDetailComponent implements OnInit {
     this.postService.getPostById(this.postId).subscribe(
       (response) => {
         if (response.success && response.data) {
-          console.log(response.data);
           this.post = response.data;
           if (this.post && this.post.content) {
             this.formattedContent = this.post.content
               .split('\n')
               .map((paragraph) => paragraph.trim());
-            console.log(this.formattedContent);
           }
         }
       },

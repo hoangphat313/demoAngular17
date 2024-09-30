@@ -8,23 +8,31 @@ import {
 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
-import { User } from '../../core/model/common.model';
+import { Post, User } from '../../core/model/common.model';
 import { NotificationService } from '../notifications/notification.service';
+import { debounceTime, Subscription, switchMap } from 'rxjs';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { PostService } from '../../core/services/post.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, ReactiveFormsModule, CommonModule],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss',
 })
 export class LayoutComponent implements OnInit {
   authService = inject(AuthService);
+  postService = inject(PostService);
   notificationService = inject(NotificationService);
   isLoggedIn = this.authService.isLoggedIn();
   injector = inject(Injector);
   user!: User;
   router = inject(Router);
+  searchControl = new FormControl();
+  posts: Post[] = [];
+  private searchSubscription: Subscription = new Subscription();
   ngOnInit() {
     effect(
       () => {

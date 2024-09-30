@@ -10,11 +10,12 @@ import {
 } from '@angular/forms';
 import * as bootstrap from 'bootstrap';
 import { NotificationService } from '../../shared/notifications/notification.service';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
-  selector: 'app-profile',
+  selector: 'app-posts',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, NgxPaginationModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
 })
@@ -25,6 +26,7 @@ export class ProfileComponent implements OnInit {
   postForm!: FormGroup;
   isEditMoe: boolean = false;
   selectedPost: Post | null = null;
+  p: number = 1;
 
   constructor(private notificationService: NotificationService) {
     this.postForm = this.fb.group({
@@ -42,7 +44,6 @@ export class ProfileComponent implements OnInit {
     this.postService.getAllPosts().subscribe(
       (response) => {
         this.posts = response.data;
-        console.log(response.data);
       },
       (error) => {
         console.log(error);

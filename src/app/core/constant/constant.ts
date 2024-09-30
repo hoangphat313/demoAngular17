@@ -12,6 +12,7 @@ export const ApiEndpoint = {
     GetPostById: `${apiUrl}/posts/getPost`,
     UpdatePost: `${apiUrl}/posts/updatePost`,
     DeletePost: `${apiUrl}/posts/deletePost`,
+    SearchPost: `${apiUrl}/posts/search`,
   },
 };
 export const LocalStorage = {

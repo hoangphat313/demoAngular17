@@ -4,6 +4,7 @@ import {
   deletePost,
   getAllPosts,
   getPostById,
+  searchPost,
   updatePost,
 } from './PostController';
 const PostRoute = express.Router();
@@ -13,4 +14,5 @@ PostRoute.get('/getAllPosts', getAllPosts);
 PostRoute.get('/getPost', getPostById);
 PostRoute.put('/updatePost', updatePost);
 PostRoute.delete('/deletePost', deletePost);
+PostRoute.get('/search', searchPost);
 export default PostRoute;

@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
   <div class="container">
-    <a class="navbar-brand" href="#">Dashboard</a>
+    <a class="navbar-brand" href="#">TBOOK</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
       aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -9,17 +9,17 @@
       <ul class="navbar-nav">
         @if (isLoggedIn) {
         <li class="nav-item">
-          <a class="nav-link" style="cursor: pointer;" (click)="toggleAdmin()">Welcome {{user?.name}} !</a>
+          <a class="nav-link" style="cursor: pointer;" (click)="toggleAdmin()">Xin Chào {{user?.name}} !</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" style="cursor: pointer;" (click)="logout()">Logout</a>
+          <a class="nav-link" style="cursor: pointer;" (click)="logout()">Đăng Xuất</a>
         </li>
         }@else {
         <li class="nav-item">
-          <a class="nav-link" routerLink="login">Login</a>
+          <a class="nav-link" routerLink="login">Đăng Nhập</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="register">Register</a>
+          <a class="nav-link" routerLink="register">Đăng Ký</a>
         </li>}
       </ul>
     </div>
@@ -28,3 +28,36 @@
 <main class="container mt-5">
   <router-outlet></router-outlet>
 </main>
+<div class='footer-container'>
+  <div class="footer-content">
+    <div class="footer-content-left">
+      <p>TBOOK là điểm đến lý tưởng cho những ai đam mê sách, với bộ sưu tập đa dạng từ tiểu thuyết đến sách khoa học.
+        Đội ngũ nhân viên tận tâm luôn sẵn sàng giúp bạn tìm kiếm những cuốn sách phù hợp.
+        Hãy ghé TBOOK để khám phá không gian đọc thân thiện và những tác phẩm đặc sắc!</p>
+      <div class="footer-social-icons">
+        <img src="assets/facebook_icon.png" alt="" />
+        <img src="assets/linkedin_icon.png" alt="" />
+        <img src="assets/twitter_icon.png " alt="" />
+      </div>
+    </div>
+    <div class="footer-content-center">
+      <h3>COMPANY</h3>
+      <ul>
+        <li>Home</li>
+        <li>About Us</li>
+        <li>Delivery</li>
+        <li>Privacy Policy</li>
+      </ul>
+    </div>
+    <div class="footer-content-right">
+      <h3>GET IN TOUCH</h3>
+      <ul>
+        <li>Hotline: 0395704727</li>
+        <li>Gmail: tbooksupport&#64;gmail.com</li>
+      </ul>
+    </div>
+  </div>
+  <p class="footer-copy-right">
+    Copyright 2024 © TBOOK.com - All rights reserved
+  </p>
+</div>

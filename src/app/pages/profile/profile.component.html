@@ -7,18 +7,18 @@
         <tr>
           <th scope="col" width="5%"><input class="form-check-input" type="checkbox"></th>
           <th scope="col" width="5%">ID</th>
-          <th scope="col" width="15%">Title</th>
-          <th scope="col" width="30%">Content</th>
-          <th scope="col" width="15%">Author</th>
-          <th scope="col" class="text-end" width="15%">Image</th>
-          <th scope="col" class="text-center" width="15%">Action</th>
+          <th scope="col" width="15%">Tựa Đề</th>
+          <th scope="col" width="30%">Nội Dung</th>
+          <th scope="col" width="15%">Tác Giả</th>
+          <th scope="col" class="text-end" width="15%">Hình Ảnh</th>
+          <th scope="col" class="text-center" width="15%">Hành Động</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let post of posts">
+        <tr *ngFor="let post of posts | paginate: {itemsPerPage: 5, currentPage: p }">
           <th scope="row"><input class="form-check-input" type="checkbox"></th>
           <td class="ellipsis">{{post._id}}</td>
-          <td><span class="ms-1">{{post.title}}</span></td>
+          <td class="ellipsis"><span class="ms-1">{{post.title}}</span></td>
           <td class="ellipsis"> {{post.content}}</td>
           <td>{{post.author}}</td>
           <td class="text-end">
@@ -35,35 +35,37 @@
         </tr>
       </tbody>
     </table>
+    <pagination-controls [responsive]="true" previousLabel="" nextLabel="" class="page-control"
+      (pageChange)="p = $event"></pagination-controls>
     <!-- Modal add & edit -->
     <div class="modal fade" id="editPostModal" tabindex="-1" aria-labelledby="editPostModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="editPostModalLabel">
-              {{isEditMoe ? 'Edit Post': 'Add Post'}}</h5>
+              {{isEditMoe ? 'Sửa Bài Viết': 'Thêm Bài Viết'}}</h5>
           </div>
           <div class="modal-body">
             <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
               <div class="mb-3">
-                <label for="title">Title</label>
+                <label for="title">Tựa đề</label>
                 <input id="title" formControlName="title" class="form-control" />
               </div>
               <div class="mb-3">
-                <label for="content">Content</label>
+                <label for="content">Nội dung</label>
                 <textarea style="height: 150px;" id="content" formControlName="content" class="form-control"></textarea>
               </div>
               <div class="mb-3">
-                <label for="author">Author</label>
+                <label for="author">Tác giả</label>
                 <input id="author" formControlName="author" class="form-control" />
               </div>
               <div class="mb-3">
-                <label for="images">Images</label>
+                <label for="images">Hình ảnh</label>
                 <input id="images" formControlName="images" class="form-control" />
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="submit" class="btn btn-primary">Xác nhận</button>
               </div>
             </form>
           </div>
@@ -76,15 +78,15 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="deleteConfirmModalLabel">Confirm Deletion</h5>
+            <h5 class="modal-title" id="deleteConfirmModalLabel">Xác Nhận Xóa</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            Are you sure you want to delete this post?
+            Bạn có muốn xóa bài viết này không ?
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-danger" (click)="onDelete()">Delete</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+            <button type="button" class="btn btn-danger" (click)="onDelete()">Xác nhận</button>
           </div>
         </div>
       </div>
