@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { verify } from 'jsonwebtoken';
 import config from '../config/config';
+import UserSchema from '../users/UserSchema';
 
 export interface AuthRequest extends Request {
   userId: string;
@@ -20,4 +21,20 @@ const authenticate = (req: Request, res: Response, next: NextFunction) => {
     return res.status(401).json({ message: 'Unauthorized' });
   }
 };
-export default authenticate;
+const checkIsAdmin = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const _req = req as AuthRequest;
+  try {
+    const user = await UserSchema.findById(_req.userId);
+    if (!user || !user.isAdmin) {
+      return res.status(403).json({ message: 'Not authorized as admin' });
+    }
+    return next();
+  } catch (error) {
+    return res.status(500).json({ message: 'Something went wrong' });
+  }
+};
+export { authenticate, checkIsAdmin };

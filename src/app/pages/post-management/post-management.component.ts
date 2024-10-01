@@ -11,15 +11,14 @@ import {
 import * as bootstrap from 'bootstrap';
 import { NotificationService } from '../../shared/notifications/notification.service';
 import { NgxPaginationModule } from 'ngx-pagination';
-
 @Component({
-  selector: 'app-posts',
+  selector: 'app-post-management',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, NgxPaginationModule],
-  templateUrl: './profile.component.html',
-  styleUrl: './profile.component.scss',
+  templateUrl: './post-management.component.html',
+  styleUrl: './post-management.component.scss',
 })
-export class ProfileComponent implements OnInit {
+export class PostManagementComponent {
   postService = inject(PostService);
   posts: Post[] = [];
   fb = inject(FormBuilder);

@@ -6,7 +6,8 @@ import { RegisterComponent } from './pages/register/register.component';
 import { authGuard } from './core/guards/auth.guard';
 import { guestGuard } from './core/guards/guest.guard';
 import { PostDetailComponent } from './pages/post-detail/post-detail.component';
-import { ProfileComponent } from './pages/profile/profile.component';
+import { PostManagementComponent } from './pages/post-management/post-management.component';
+import { UserManagementComponent } from './pages/user-management/user-management.component';
 
 export const routes: Routes = [
   {
@@ -31,9 +32,14 @@ export const routes: Routes = [
         component: PostDetailComponent,
       },
       {
-        path: 'profile',
+        path: 'post_management',
         canActivate: [authGuard],
-        component: ProfileComponent,
+        component: PostManagementComponent,
+      },
+      {
+        path: 'user_management',
+        canActivate: [authGuard],
+        component: UserManagementComponent,
       },
     ],
   },

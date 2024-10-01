@@ -32,7 +32,7 @@ export class LayoutComponent implements OnInit {
   router = inject(Router);
   searchControl = new FormControl();
   posts: Post[] = [];
-  private searchSubscription: Subscription = new Subscription();
+
   ngOnInit() {
     effect(
       () => {
@@ -54,9 +54,17 @@ export class LayoutComponent implements OnInit {
   logout() {
     this.authService.logout();
   }
-  toggleAdmin() {
+  togglePostManagement() {
     if (this.user.isAdmin) {
-      this.router.navigate(['profile']);
+      this.router.navigate(['post_management']);
+    } else
+      this.notificationService.showNotification(
+        'You are not authorized to access this page'
+      );
+  }
+  toggleUserManagement() {
+    if (this.user.isAdmin) {
+      this.router.navigate(['user_management']);
     } else
       this.notificationService.showNotification(
         'You are not authorized to access this page'

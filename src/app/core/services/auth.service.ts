@@ -7,7 +7,7 @@ import {
   User,
 } from '../model/common.model';
 import { ApiEndpoint, LocalStorage } from '../constant/constant';
-import { map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../shared/notifications/notification.service';
 
@@ -65,5 +65,18 @@ export class AuthService {
     this.notificationService.showNotification('Logout successful');
     this.isLoggedIn.update(() => false);
     this.router.navigate(['login']);
+  }
+  getAllUsers(): Observable<{ success: boolean; data: User[] }> {
+    return this._http.get<{ success: boolean; data: User[] }>(`
+      ${ApiEndpoint.Auth.GetAllUsers}`);
+  }
+  updateIsAdmin(
+    userId: string,
+    isAdmin: boolean
+  ): Observable<{ success: boolean; data: User }> {
+    return this._http.put<{ success: boolean; data: User }>(
+      `${ApiEndpoint.Auth.UpdateIsAdmin}`,
+      { userId: userId, isAdmin: isAdmin }
+    );
   }
 }

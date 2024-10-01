@@ -8,23 +8,33 @@
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
       <ul class="navbar-nav">
         @if (isLoggedIn) {
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Xin chào {{user?.name}} !
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a *ngIf="user?.isAdmin" class="dropdown-item" style="cursor: pointer;"
+              (click)="togglePostManagement()">Quản lý bài viết</a>
+            <a *ngIf="user?.isAdmin" class="dropdown-item" style="cursor: pointer;"
+              (click)="toggleUserManagement()">Quản lý người dùng</a>
         <li class="nav-item">
-          <a class="nav-link" style="cursor: pointer;" (click)="toggleAdmin()">Xin Chào {{user?.name}} !</a>
+          <a class="dropdown-item" style="cursor: pointer;" (click)="logout()">Đăng xuất</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" style="cursor: pointer;" (click)="logout()">Đăng Xuất</a>
-        </li>
-        }@else {
-        <li class="nav-item">
-          <a class="nav-link" routerLink="login">Đăng Nhập</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="register">Đăng Ký</a>
-        </li>}
-      </ul>
     </div>
+    </li>
+    }@else {
+    <li class="nav-item">
+      <a class="nav-link" routerLink="login">Đăng Nhập</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="register">Đăng Ký</a>
+    </li>}
+    </ul>
+  </div>
   </div>
 </nav>
+
 <main class="container mt-5">
   <router-outlet></router-outlet>
 </main>

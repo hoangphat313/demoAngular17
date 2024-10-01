@@ -1,0 +1,31 @@
+<div class="container mt-5 px-2">
+  <div class="table-responsive">
+    <table class="table table-hover table-borderless align-middle">
+      <thead class="bg-light">
+        <tr>
+          <th scope="col" width="5%"><input class="form-check-input" type="checkbox"></th>
+          <th scope="col" width="5%">ID</th>
+          <th scope="col" width="15%">Tên</th>
+          <th scope="col" width="30%">Email</th>
+          <th scope="col" class="text-center" width="15%">Quyền Admin</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users | paginate: {itemsPerPage: 5, currentPage: p }">
+          <th scope="row"><input class="form-check-input" type="checkbox"></th>
+          <td class="ellipsis">{{user._id}}</td>
+          <td class="ellipsis"><span class="ms-1">{{user.name}}</span></td>
+          <td class="ellipsis"> {{user.email}}</td>
+          <td>
+            <div style="display: flex;align-items: center;justify-content: center;">
+              <p><mat-slide-toggle [checked]="user.isAdmin" [disabled]="user._id===fixedAdmin"
+                  (change)="toggleAdmin(user._id,user.isAdmin)"></mat-slide-toggle></p>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <pagination-controls [responsive]="true" previousLabel="" nextLabel="" class="page-control"
+      (pageChange)="p = $event"></pagination-controls>
+  </div>
+</div>

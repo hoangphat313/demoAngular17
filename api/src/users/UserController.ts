@@ -4,6 +4,8 @@ import bcrypt from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 import config from '../config/config';
 import { AuthRequest } from '../middlewares/authenticate';
+import { ApiResponse } from '../post/PostTypes';
+import { IUser } from './UserTypes';
 
 const register = async (req: Request, res: Response, next: NextFunction) => {
   const { name, email, password } = req.body;
@@ -85,4 +87,44 @@ const me = async (req: Request, res: Response, next: NextFunction) => {
   }
   return res.status(500).json({ message: 'Something went wrong' });
 };
-export { register, login, me };
+const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const users = await UserSchema.find();
+    const response: ApiResponse<IUser[]> = { success: true, data: users };
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(400).json({ success: false, error: error });
+  }
+};
+const updateIsAdmin = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { userId, isAdmin } = req.body;
+  if (!userId || typeof isAdmin !== 'boolean') {
+    return res.status(400).json({ message: 'Missing required fields' });
+  }
+  try {
+    const user = await UserSchema.findByIdAndUpdate(
+      userId,
+      { isAdmin },
+      { new: true }
+    );
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    return res.status(200).json({
+      success: true,
+      data: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        isAdmin: user.isAdmin,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json('Server error: ' + error);
+  }
+};
+export { register, login, me, getAllUsers, updateIsAdmin };

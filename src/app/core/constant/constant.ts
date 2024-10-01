@@ -5,6 +5,8 @@ export const ApiEndpoint = {
     Register: `${apiUrl}/users/register`,
     Login: `${apiUrl}/users/login`,
     UserDetail: `${apiUrl}/users/me`,
+    GetAllUsers: `${apiUrl}/users/getAllUsers`,
+    UpdateIsAdmin: `${apiUrl}/users/updateIsAdmin`,
   },
   Post: {
     CreatePost: `${apiUrl}/posts/create`,
