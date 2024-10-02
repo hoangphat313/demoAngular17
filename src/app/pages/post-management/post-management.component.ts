@@ -13,11 +13,17 @@ import * as bootstrap from 'bootstrap';
 import { NotificationService } from '../../shared/notifications/notification.service';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { debounceTime, Subscription, switchMap } from 'rxjs';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-post-management',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, NgxPaginationModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    NgxPaginationModule,
+    MatSlideToggleModule,
+  ],
   templateUrl: './post-management.component.html',
   styleUrl: './post-management.component.scss',
 })
@@ -170,5 +176,17 @@ export class PostManagementComponent {
         modal.hide();
       }
     }
+  }
+  toggleFeaturedPost(postId: string, currentFeatured: boolean) {
+    const newFeatured = !currentFeatured;
+    this.postService.updateFeaturedPost(postId, newFeatured).subscribe(
+      (response) => {
+        this.notificationService.showNotification('Featured post updated');
+        this.loadPosts();
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 }

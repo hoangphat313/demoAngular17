@@ -7,7 +7,7 @@ export interface IPost extends Document {
   author: string;
   createdAt?: Date;
   images: string[];
-
+  featured: boolean;
 }
 const PostSchema = new mongoose.Schema<IPost>({
   title: {
@@ -22,6 +22,10 @@ const PostSchema = new mongoose.Schema<IPost>({
   author: {
     type: String,
     required: true,
+  },
+  featured: {
+    type: Boolean,
+    default: false,
   },
   images: [
     {

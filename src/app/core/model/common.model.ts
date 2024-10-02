@@ -13,6 +13,7 @@ export interface Post {
   author: string;
   createdAt?: Date;
   images: string[];
+  featured: boolean;
 }
 export interface LoginPayload {
   email: string;

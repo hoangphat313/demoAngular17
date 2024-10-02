@@ -54,7 +54,9 @@ const deletePost = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const post = await Post.findByIdAndDelete(req.query.id);
     if (!post) {
-      return res.status(404).json({ success: false, message: 'Post not found' });
+      return res
+        .status(404)
+        .json({ success: false, message: 'Post not found' });
     }
     const response = {
       success: true,
@@ -84,6 +86,41 @@ const searchPost = async (req: Request, res: Response, next: NextFunction) => {
       .json({ success: false, error: 'Something went wrong' });
   }
 };
+const updateFeaturedPost = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { postId, featured } = req.body;
+  if (!postId || typeof featured !== 'boolean') {
+    return res.status(400).json({ message: 'Missing required fields' });
+  }
+  try {
+    const post = await Post.findByIdAndUpdate(
+      postId,
+      { featured },
+      { new: true }
+    );
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+    return res.status(200).json({
+      success: true,
+      message: 'Featured post updated successfully',
+      data: {
+        _id: postId,
+        title: post.title,
+        content: post.content,
+        author: post.author,
+        createdAt: post.createdAt,
+        images: post.images,
+        featured: post.featured,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json('Server error: ' + error);
+  }
+};
 export {
   createPost,
   updatePost,
@@ -91,4 +128,5 @@ export {
   getAllPosts,
   getPostById,
   searchPost,
+  updateFeaturedPost,
 };

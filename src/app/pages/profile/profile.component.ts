@@ -4,7 +4,6 @@ import { User } from '../../core/model/common.model';
 import {
   FormBuilder,
   FormGroup,
-  FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';

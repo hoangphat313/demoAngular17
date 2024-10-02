@@ -50,4 +50,13 @@ export class PostService {
       `${ApiEndpoint.Post.SearchPost}?name=${searchTerm}`
     );
   }
+  updateFeaturedPost(
+    postId: string,
+    featured: boolean
+  ): Observable<{ success: boolean; data: Post }> {
+    return this._http.put<{ success: boolean; data: Post }>(
+      `${ApiEndpoint.Post.UpdateFeaturedPost}`,
+      { postId: postId, featured: featured }
+    );
+  }
 }

@@ -9,7 +9,7 @@ export const ApiEndpoint = {
     UpdateIsAdmin: `${apiUrl}/users/updateIsAdmin`,
     SearchUser: `${apiUrl}/users/searchUser`,
     DeleteUser: `${apiUrl}/users/deleteUser`,
-    UpdateUserDetail:`${apiUrl}/users/updateUserDetail`
+    UpdateUserDetail: `${apiUrl}/users/updateUserDetail`,
   },
   Post: {
     CreatePost: `${apiUrl}/posts/create`,
@@ -18,6 +18,7 @@ export const ApiEndpoint = {
     UpdatePost: `${apiUrl}/posts/updatePost`,
     DeletePost: `${apiUrl}/posts/deletePost`,
     SearchPost: `${apiUrl}/posts/search`,
+    UpdateFeaturedPost: `${apiUrl}/posts/featured`,
   },
 };
 export const LocalStorage = {

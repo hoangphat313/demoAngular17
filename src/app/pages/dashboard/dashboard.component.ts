@@ -80,7 +80,12 @@ export class DashboardComponent implements OnInit {
       .subscribe(
         (response) => {
           if (response && response.data.length > 0) {
-            this.posts = response.data;
+            this.posts = response.data.filter(
+              (post: any) => post.featured === true
+            );
+            if (this.posts.length === 0) {
+              this.notificationService.showNotification('No featured posts found');
+            }
           } else {
             this.posts = [];
             this.notificationService.showNotification('No posts found');
@@ -98,7 +103,9 @@ export class DashboardComponent implements OnInit {
   loadPosts() {
     this.postService.getAllPosts().subscribe(
       (response) => {
-        this.posts = response.data;
+        this.posts = response.data.filter(
+          (post: any) => post.featured === true
+        );
       },
       (error) => console.log(error)
     );
