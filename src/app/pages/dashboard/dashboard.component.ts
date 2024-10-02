@@ -84,7 +84,9 @@ export class DashboardComponent implements OnInit {
               (post: any) => post.featured === true
             );
             if (this.posts.length === 0) {
-              this.notificationService.showNotification('No featured posts found');
+              this.notificationService.showNotification(
+                'No featured posts found'
+              );
             }
           } else {
             this.posts = [];
@@ -94,6 +96,7 @@ export class DashboardComponent implements OnInit {
         (error) => console.log(error)
       );
   }
+  searchPost() {}
   ngOnDestroy() {
     this.searchSubscription.unsubscribe();
   }

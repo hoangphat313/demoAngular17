@@ -27,6 +27,7 @@ export class AuthService {
       this.isLoggedIn.update(() => true);
     }
   }
+  
   register(payload: RegisterPayload) {
     return this._http
       .post<ApiResponse<User>>(`${ApiEndpoint.Auth.Register}`, payload)
