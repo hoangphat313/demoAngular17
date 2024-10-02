@@ -6,17 +6,35 @@ import config from '../config/config';
 import { AuthRequest } from '../middlewares/authenticate';
 import { ApiResponse } from '../post/PostTypes';
 import { IUser } from './UserTypes';
+import mongoose from 'mongoose';
+import { log } from 'console';
 
 const register = async (req: Request, res: Response, next: NextFunction) => {
-  const { name, email, password } = req.body;
-  if (!name || !email || !password) {
+  const { name, email, password, phoneNumber } = req.body;
+
+  if (!name || !email || !password || phoneNumber === undefined) {
     return res
       .status(400)
       .json({ message: 'Please provide all required fields' });
   }
-  const user = await UserSchema.findOne({ email });
+  const phoneNumberStr = phoneNumber.toString();
+  const phoneRegex = /^\d{10}$/;
+  if (!phoneRegex.test(phoneNumberStr)) {
+    return res
+      .status(400)
+      .json({ message: 'Phone number must be exactly 10 digits' });
+  }
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ message: 'Invalid email format' });
+  }
+  const user = await UserSchema.findOne({
+    $or: [{ email }, { phoneNumber: phoneNumberStr }],
+  });
   if (user) {
-    return res.status(400).json({ message: 'User already exists' });
+    return res
+      .status(400)
+      .json({ message: 'Email or phone number already exists' });
   }
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -25,12 +43,20 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
       email,
       password: hashedPassword,
       isAdmin: false,
+      phoneNumber: phoneNumberStr,
+      avatarUrl: '',
     });
     await newUser.save();
     res.status(200).json({
       status: true,
       message: 'User created',
-      data: { _id: newUser._id, name: newUser.name },
+      data: {
+        _id: newUser._id,
+        name: newUser.name,
+        phonNumber: newUser.phoneNumber,
+        email: newUser.email,
+        avatarUrl: newUser.avatarUrl,
+      },
     });
   } catch (error) {
     return res.status(500).json({ error: 'Something went wrong' });
@@ -63,6 +89,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
         email: user.email,
         name: user.name,
         isAdmin: user.isAdmin,
+        phoneNumber: user.phoneNumber,
       },
       token,
     });
@@ -71,7 +98,11 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const me = async (req: Request, res: Response, next: NextFunction) => {
+const getUserDetail = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const _request = req as AuthRequest;
   const user = await UserSchema.findById(_request.userId);
   if (user) {
@@ -82,6 +113,8 @@ const me = async (req: Request, res: Response, next: NextFunction) => {
         email: user.email,
         name: user.name,
         isAdmin: user.isAdmin,
+        phoneNumber: user.phoneNumber,
+        avatarUrl: user.avatarUrl,
       },
     });
   }
@@ -94,6 +127,33 @@ const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
     res.status(200).json(response);
   } catch (error) {
     res.status(400).json({ success: false, error: error });
+  }
+};
+const updateUserDetail = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userId = req.query.userId;
+    const { name, email, avatarUrl } = req.body;
+    if (!userId) {
+      return res.status(400).json({ message: 'User ID is required' });
+    }
+    const updateUser = await UserSchema.findByIdAndUpdate(
+      userId,
+      { name, email, avatarUrl },
+      { new: true }
+    );
+    if (!updateUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    return res.status(200).json({
+      message: 'User updated successfully',
+      data: updateUser,
+    });
+  } catch (error) {
+    console.log(error);
   }
 };
 const updateIsAdmin = async (
@@ -127,4 +187,46 @@ const updateIsAdmin = async (
     return res.status(500).json('Server error: ' + error);
   }
 };
-export { register, login, me, getAllUsers, updateIsAdmin };
+const searchUser = async (req: Request, res: Response, next: NextFunction) => {
+  const searchTerm = req.query.name;
+  if (!searchTerm) {
+    return res
+      .status(400)
+      .json({ success: false, message: 'Please provide search term' });
+  }
+  try {
+    const filterUser = await UserSchema.find({
+      $or: [{ name: { $regex: searchTerm, $options: 'i' } }],
+    });
+    return res.status(200).json({ success: true, data: filterUser });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error });
+  }
+};
+const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const user = await UserSchema.findByIdAndDelete(req.query.userId);
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: 'User not found' });
+    }
+    const response = {
+      success: true,
+      message: 'User deleted successfully',
+    };
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(400).json({ success: false, message: error });
+  }
+};
+export {
+  register,
+  login,
+  getUserDetail,
+  getAllUsers,
+  updateIsAdmin,
+  searchUser,
+  updateUserDetail,
+  deleteUser,
+};

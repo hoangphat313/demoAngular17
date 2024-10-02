@@ -18,6 +18,7 @@ export class AuthService {
   router = inject(Router);
   isLoggedIn = signal<boolean>(false);
   isAdmin = signal<boolean>(false);
+  
   constructor(
     private _http: HttpClient,
     private notificationService: NotificationService
@@ -77,6 +78,20 @@ export class AuthService {
     return this._http.put<{ success: boolean; data: User }>(
       `${ApiEndpoint.Auth.UpdateIsAdmin}`,
       { userId: userId, isAdmin: isAdmin }
+    );
+  }
+  searchUser(
+    searchTerm: string
+  ): Observable<{ success: boolean; message: string; data: User[] }> {
+    return this._http.get<{ success: boolean; message: string; data: User[] }>(
+      `${ApiEndpoint.Auth.SearchUser}?name=${searchTerm}`
+    );
+  }
+  deleteUser(
+    userId: string
+  ): Observable<{ success: boolean; message: string }> {
+    return this._http.delete<{ success: boolean; message: string }>(
+      `${ApiEndpoint.Auth.DeleteUser}?userId=${userId}`
     );
   }
 }

@@ -4,6 +4,7 @@ import { Post } from '../../core/model/common.model';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
@@ -11,6 +12,8 @@ import {
 import * as bootstrap from 'bootstrap';
 import { NotificationService } from '../../shared/notifications/notification.service';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { debounceTime, Subscription, switchMap } from 'rxjs';
+
 @Component({
   selector: 'app-post-management',
   standalone: true,
@@ -26,6 +29,9 @@ export class PostManagementComponent {
   isEditMoe: boolean = false;
   selectedPost: Post | null = null;
   p: number = 1;
+  searchControl = new FormControl();
+  private searchSubscription = new Subscription();
+
 
   constructor(private notificationService: NotificationService) {
     this.postForm = this.fb.group({
@@ -37,6 +43,24 @@ export class PostManagementComponent {
   }
   ngOnInit(): void {
     this.loadPosts();
+    this.searchSubscription = this.searchControl.valueChanges
+      .pipe(
+        debounceTime(1000),
+        switchMap((searchTerm) => {
+          if (!searchTerm) {
+            return this.postService.getAllPosts();
+          }
+          return this.postService.searchPost(searchTerm);
+        })
+      )
+      .subscribe((response) => {
+        if (response && response.data.length > 0) {
+          this.posts = response.data;
+        } else {
+          this.posts = [];
+          this.notificationService.showNotification('No posts found');
+        }
+      });
   }
 
   loadPosts() {

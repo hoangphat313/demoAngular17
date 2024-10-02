@@ -11,6 +11,11 @@
           <label for=" email" class="form-label">Email</label>
           <input type="email" class="form-control" formControlName="email" name="" placeholder="Vui lòng nhập email...">
         </div>
+        <div class="mb-3">
+          <label for="phoneNumber" class="form-label">Số điện thoại</label>
+          <input type="tel" class="form-control" formControlName="phoneNumber" name=""
+            placeholder="Vui lòng nhập Số điện thoại...">
+        </div>
         <div class="mb-3 position-relative">
           <label for="password" class="form-label">Mật khẩu</label>
           <input [type]="isPasswordVisible ? 'text':'password'" class="form-control" formControlName="password" name=""

@@ -14,7 +14,7 @@ import { debounceTime, Subscription, switchMap } from 'rxjs';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { PostService } from '../../core/services/post.service';
 import { CommonModule } from '@angular/common';
-
+import { fixedAdmin } from '../../core/constant/constant';
 @Component({
   selector: 'app-layout',
   standalone: true,
@@ -32,6 +32,7 @@ export class LayoutComponent implements OnInit {
   router = inject(Router);
   searchControl = new FormControl();
   posts: Post[] = [];
+  fixedAdmin = fixedAdmin;
 
   ngOnInit() {
     effect(
@@ -53,6 +54,9 @@ export class LayoutComponent implements OnInit {
   }
   logout() {
     this.authService.logout();
+  }
+  toggleProfile() {
+    this.router.navigate(['profile']);
   }
   togglePostManagement() {
     if (this.user.isAdmin) {

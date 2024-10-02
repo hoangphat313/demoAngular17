@@ -14,24 +14,24 @@
             Xin chào {{user?.name}} !
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a *ngIf="user?.isAdmin" class="dropdown-item" style="cursor: pointer;" (click)="toggleProfile()">Thông tin
+              cá nhân</a>
             <a *ngIf="user?.isAdmin" class="dropdown-item" style="cursor: pointer;"
               (click)="togglePostManagement()">Quản lý bài viết</a>
-            <a *ngIf="user?.isAdmin" class="dropdown-item" style="cursor: pointer;"
+            <a *ngIf="user?.isAdmin && user._id ===fixedAdmin" class="dropdown-item" style="cursor: pointer;"
               (click)="toggleUserManagement()">Quản lý người dùng</a>
-        <li class="nav-item">
-          <a class="dropdown-item" style="cursor: pointer;" (click)="logout()">Đăng xuất</a>
+            <a class="dropdown-item" style="cursor: pointer;" (click)="logout()">Đăng xuất</a>
+          </div>
         </li>
+        }@else {
+        <li class="nav-item">
+          <a class="nav-link" routerLink="login">Đăng Nhập</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="register">Đăng Ký</a>
+        </li>}
+      </ul>
     </div>
-    </li>
-    }@else {
-    <li class="nav-item">
-      <a class="nav-link" routerLink="login">Đăng Nhập</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" routerLink="register">Đăng Ký</a>
-    </li>}
-    </ul>
-  </div>
   </div>
 </nav>
 

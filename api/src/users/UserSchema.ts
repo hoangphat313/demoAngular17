@@ -15,6 +15,14 @@ const UserSchema = new mongoose.Schema<IUser>(
       type: String,
       required: true,
     },
+    phoneNumber: {
+      type: String,
+      required: true,
+    },
+    avatarUrl: {
+      type: String,
+      required: false,
+    },
     isAdmin: {
       type: Boolean,
       default: false,

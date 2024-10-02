@@ -1,11 +1,16 @@
 <div class="container mt-5 px-2">
-  <span><i class="fa fa-plus-square-o fa-3x" style="cursor: pointer; color: #212529;"
-      (click)="openAddPost()"></i></span>
+  <div class="header-container">
+    <span><i class="fa fa-plus-square-o fa-3x" style="cursor: pointer; color: #212529;"
+        (click)="openAddPost()"></i></span>
+    <form action="" class="search-form">
+      <input type="search" placeholder="Search for posts..." [formControl]="searchControl" class="form-control" />
+      <i class="fa fa-search" aria-hidden="true"></i>
+    </form>
+  </div>
   <div class="table-responsive">
     <table class="table table-hover table-borderless align-middle">
       <thead class="bg-light">
         <tr>
-          <th scope="col" width="5%"><input class="form-check-input" type="checkbox"></th>
           <th scope="col" width="5%">ID</th>
           <th scope="col" width="15%">Tựa Đề</th>
           <th scope="col" width="30%">Nội Dung</th>
@@ -16,7 +21,6 @@
       </thead>
       <tbody>
         <tr *ngFor="let post of posts | paginate: {itemsPerPage: 5, currentPage: p }">
-          <th scope="row"><input class="form-check-input" type="checkbox"></th>
           <td class="ellipsis">{{post._id}}</td>
           <td class="ellipsis"><span class="ms-1">{{post.title}}</span></td>
           <td class="ellipsis"> {{post.content}}</td>
@@ -26,10 +30,8 @@
           </td>
           <td>
             <div style="display: flex;align-items: center;justify-content: center;">
-              <span style="margin-right: 15px; cursor: pointer; "><i class="fa fa-pencil fa-1.8x"
-                  (click)="editPost(post)"></i></span>
-              <span style="cursor: pointer;color: red;"><i class="fa fa-trash fa-1.8x"
-                  (click)="openDeletePost(post)"></i></span>
+              <i class="material-icons " style="color: blue;cursor: pointer;" (click)="editPost(post)">edit</i>
+              <i class="material-icons" style="color: red; cursor: pointer;" (click)="openDeletePost(post)">delete</i>
             </div>
           </td>
         </tr>
@@ -91,6 +93,4 @@
         </div>
       </div>
     </div>
-
   </div>
-</div>

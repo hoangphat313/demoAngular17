@@ -49,12 +49,13 @@
 color: #212529;
 margin-top: 70px;
 }
+
 //search
 form{
   margin-top: 50px;
   position: relative;
   top: 50%;
-  left: 50%;
+  left: 98%;
   transform: translate(-50%,-50%);
   transition: all 1s;
   width: 50px;
@@ -83,6 +84,7 @@ input{
 
 .fa{
   box-sizing: border-box;
+  background-color: #F8F9FA;
   padding: 10px;
   width: 42.5px;
   height: 42.5px;
@@ -97,8 +99,9 @@ input{
 }
 
 form:hover{
-  width: 300px;
+  width: 250px;
   cursor: pointer;
+  left: 90%;
 }
 
 form:hover input{
@@ -106,7 +109,6 @@ form:hover input{
 }
 
 form:hover .fa{
-
   background: #212529;
   color: white;
 }

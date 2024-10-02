@@ -1,25 +1,36 @@
 <div class="container mt-5 px-2">
+  <form action="" class="form ">
+    <input type="search" placeholder="Search for users..." [formControl]="searchControl" class="form-control" />
+    <i class="fa fa-search" aria-hidden="true"></i>
+  </form>
   <div class="table-responsive">
     <table class="table table-hover table-borderless align-middle">
       <thead class="bg-light">
         <tr>
-          <th scope="col" width="5%"><input class="form-check-input" type="checkbox"></th>
-          <th scope="col" width="5%">ID</th>
           <th scope="col" width="15%">Tên</th>
           <th scope="col" width="30%">Email</th>
+          <th scope="col" width="20%">Số điện thoại</th>
           <th scope="col" class="text-center" width="15%">Quyền Admin</th>
+          <th scope="col" class="text-center" width="15%">Hành Động</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let user of users | paginate: {itemsPerPage: 5, currentPage: p }">
-          <th scope="row"><input class="form-check-input" type="checkbox"></th>
-          <td class="ellipsis">{{user._id}}</td>
           <td class="ellipsis"><span class="ms-1">{{user.name}}</span></td>
           <td class="ellipsis"> {{user.email}}</td>
+          <td class="ellipsis"> {{user.phoneNumber}}</td>
           <td>
             <div style="display: flex;align-items: center;justify-content: center;">
               <p><mat-slide-toggle [checked]="user.isAdmin" [disabled]="user._id===fixedAdmin"
-                  (change)="toggleAdmin(user._id,user.isAdmin)"></mat-slide-toggle></p>
+                  (change)="toggleAdmin(user._id,user.isAdmin)">
+                </mat-slide-toggle></p>
+            </div>
+          </td>
+          <td>
+            <div style="display: flex;align-items: center;justify-content: center;">
+              <i class="material-icons"
+                [ngStyle]="{ 'color': user._id=== fixedAdmin ? 'gray' : 'red', 'cursor':user._id ===fixedAdmin ? 'not-allowed' : 'pointer' }"
+                (click)="user._id !==fixedAdmin && openDeleteUser(user)">delete</i>
             </div>
           </td>
         </tr>
@@ -27,5 +38,24 @@
     </table>
     <pagination-controls [responsive]="true" previousLabel="" nextLabel="" class="page-control"
       (pageChange)="p = $event"></pagination-controls>
+  </div>
+  <!-- Modal delete -->
+  <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteConfirmModalLabel">Xác Nhận Xóa</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Bạn có muốn xóa người dùng này không ?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+          <button type="button" class="btn btn-danger" (click)="onDelete()">Xác nhận</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

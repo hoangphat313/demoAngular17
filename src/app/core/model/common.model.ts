@@ -3,6 +3,8 @@ export interface User {
   name: string;
   email: string;
   isAdmin: boolean;
+  phoneNumber: string;
+  avatarUrl: string;
 }
 export interface Post {
   _id: string;
@@ -20,6 +22,7 @@ export interface RegisterPayload {
   name: string;
   email: string;
   password: string;
+  phoneNumber: string;
 }
 export interface ApiResponse<T> {
   status?: boolean;
