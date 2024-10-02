@@ -33,13 +33,20 @@
   vertical-align: middle;
 }
 
+//modal
+.modal-header{
+  background: #212529;
+}
 .modal-title {
   width: 90%;
   text-align: center;
-  color: #212529;
+  color: white;
+
   font-weight: bold;
 }
-
+.mb-3 label {
+  font-weight: bold;
+}
 .page-control {
   display: flex;
   justify-content: flex-end;
@@ -118,5 +125,15 @@
   color: white;
 }
 
-
+.custom-icon{
+ cursor: pointer;
+ color: #212529;
+ font-size: 40px;
+ transition: transform 0.3s ease, color 0.3s ease 0.3s ease;
+}
+.custom-icon:hover{
+  color: #007bff;
+  cursor: pointer;
+  transform:scale(1.1);
+}
 

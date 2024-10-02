@@ -6,8 +6,7 @@ import config from '../config/config';
 import { AuthRequest } from '../middlewares/authenticate';
 import { ApiResponse } from '../post/PostTypes';
 import { IUser } from './UserTypes';
-import mongoose from 'mongoose';
-import { log } from 'console';
+
 
 const register = async (req: Request, res: Response, next: NextFunction) => {
   const { name, email, password, phoneNumber } = req.body;
@@ -136,13 +135,14 @@ const updateUserDetail = async (
 ) => {
   try {
     const userId = req.query.userId;
-    const { name, email, avatarUrl } = req.body;
+    const { name, email, avatarUrl,phoneNumber } = req.body;
+
     if (!userId) {
       return res.status(400).json({ message: 'User ID is required' });
     }
     const updateUser = await UserSchema.findByIdAndUpdate(
       userId,
-      { name, email, avatarUrl },
+      { name, email, avatarUrl,phoneNumber },
       { new: true }
     );
     if (!updateUser) {

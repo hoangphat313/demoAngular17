@@ -1,9 +1,48 @@
-<div class="container">
-  <div class="profile-card">
-    <div class="profile-header">
-      <img [src]="user.avatarUrl" alt="">
-      <h2>{{user.name}}</h2>
-      <p>{{user.email}}</p>
+<div class="update-user">
+  <h3>Thông Tin Người Dùng</h3>
+  <div class="profile-header">
+    <img [src]="user?.avatarUrl" alt="Avatar" class="avatar" />
+    <p><strong>Tên: </strong> {{ user?.name }}</p>
+    <p><strong>Email: </strong> {{ user?.email }}</p>
+    <p><strong>Số điện thoại: </strong>{{user?.phoneNumber}}</p>
+  </div>
+  <div class="profile-button">
+    <button type="button" class="btn btn-danger" (click)="logout()">Đăng xuất</button>
+    <button type="button" class="btn btn-primary" (click)="openEditForm()">Chỉnh sửa</button>
+  </div>
+  <!-- Modal edit user -->
+  <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editUserModalLabel">
+            Chỉnh sửa thông tin người dùng</h5>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="updateForm" (ngSubmit)="updateUserDetail()">
+            <div class="mb-3">
+              <label for="name">Tên</label>
+              <input id="name" formControlName="name" />
+            </div>
+            <div class="mb-3">
+              <label for="email">Email</label>
+              <input id="email" formControlName="email" />
+            </div>
+            <div class="mb-3">
+              <label for="phoneNumber">Số điện thoại</label>
+              <input id="phoneNumber" formControlName="phoneNumber" />
+            </div>
+            <div class="mb-3">
+              <label for="avatarUrl">URL Avatar</label>
+              <input id="avatarUrl" formControlName="avatarUrl" />
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+              <button type="submit" class="btn btn-primary">Cập nhật</button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 </div>

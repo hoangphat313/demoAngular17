@@ -90,6 +90,13 @@ export class UserManagementComponent implements OnInit {
             this.notificationService.showNotification(
               'User deleted successfully'
             );
+            const modalEl = document.getElementById('deleteConfirmModal');
+            if (modalEl) {
+              const modal = bootstrap.Modal.getInstance(modalEl);
+              if (modal) {
+                modal.hide();
+              }
+            }
             this.selectedUser = null;
           }
         },

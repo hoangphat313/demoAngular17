@@ -2,10 +2,12 @@ import { NextFunction, Request, Response } from 'express';
 import { verify } from 'jsonwebtoken';
 import config from '../config/config';
 import UserSchema from '../users/UserSchema';
+import jwt from 'jsonwebtoken';
 
 export interface AuthRequest extends Request {
   userId: string;
 }
+const jwtSecret = config.jwtSecret;
 const authenticate = (req: Request, res: Response, next: NextFunction) => {
   const token = req.header('Authorization');
   if (!token) {
@@ -37,4 +39,5 @@ const checkIsAdmin = async (
     return res.status(500).json({ message: 'Something went wrong' });
   }
 };
+
 export { authenticate, checkIsAdmin };

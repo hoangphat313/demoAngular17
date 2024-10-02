@@ -14,11 +14,11 @@
             Xin chào {{user?.name}} !
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a *ngIf="user?.isAdmin" class="dropdown-item" style="cursor: pointer;" (click)="toggleProfile()">Thông tin
+            <a class="dropdown-item" style="cursor: pointer;" (click)="toggleProfile()">Thông tin
               cá nhân</a>
             <a *ngIf="user?.isAdmin" class="dropdown-item" style="cursor: pointer;"
               (click)="togglePostManagement()">Quản lý bài viết</a>
-            <a *ngIf="user?.isAdmin && user._id ===fixedAdmin" class="dropdown-item" style="cursor: pointer;"
+            <a *ngIf="user?.isAdmin && user?._id ===fixedAdmin" class="dropdown-item" style="cursor: pointer;"
               (click)="toggleUserManagement()">Quản lý người dùng</a>
             <a class="dropdown-item" style="cursor: pointer;" (click)="logout()">Đăng xuất</a>
           </div>

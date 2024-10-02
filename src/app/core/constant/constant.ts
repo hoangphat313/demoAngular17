@@ -9,6 +9,7 @@ export const ApiEndpoint = {
     UpdateIsAdmin: `${apiUrl}/users/updateIsAdmin`,
     SearchUser: `${apiUrl}/users/searchUser`,
     DeleteUser: `${apiUrl}/users/deleteUser`,
+    UpdateUserDetail:`${apiUrl}/users/updateUserDetail`
   },
   Post: {
     CreatePost: `${apiUrl}/posts/create`,

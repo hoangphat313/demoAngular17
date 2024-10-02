@@ -32,7 +32,6 @@ export class PostManagementComponent {
   searchControl = new FormControl();
   private searchSubscription = new Subscription();
 
-
   constructor(private notificationService: NotificationService) {
     this.postForm = this.fb.group({
       title: ['', Validators.required],
@@ -103,6 +102,13 @@ export class PostManagementComponent {
             this.notificationService.showNotification(
               'Post deleted successfully'
             );
+            const modalEl = document.getElementById('deleteConfirmModal');
+            if (modalEl) {
+              const modal = bootstrap.Modal.getInstance(modalEl);
+              if (modal) {
+                modal.hide();
+              }
+            }
             this.selectedPost = null;
           }
         },
@@ -134,6 +140,7 @@ export class PostManagementComponent {
               }
               this.selectedPost = null;
               this.postForm.reset();
+              this.toggleModal(false);
               this.loadPosts();
             }
           },
@@ -147,6 +154,7 @@ export class PostManagementComponent {
           this.posts.push(response.data);
           this.notificationService.showNotification('Post added successfully');
           this.postForm.reset();
+          this.toggleModal(false);
         }
       });
     }
@@ -154,8 +162,9 @@ export class PostManagementComponent {
   toggleModal(open: boolean): void {
     const modalEl = document.getElementById('editPostModal');
     if (modalEl) {
-      const modal = new bootstrap.Modal(modalEl);
-      if (open) {
+      const modal =
+        bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+      if (modal && open) {
         modal.show();
       } else {
         modal.hide();

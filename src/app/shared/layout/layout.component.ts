@@ -28,7 +28,7 @@ export class LayoutComponent implements OnInit {
   notificationService = inject(NotificationService);
   isLoggedIn = this.authService.isLoggedIn();
   injector = inject(Injector);
-  user!: User;
+  user: User | null = null;
   router = inject(Router);
   searchControl = new FormControl();
   posts: Post[] = [];
@@ -59,7 +59,7 @@ export class LayoutComponent implements OnInit {
     this.router.navigate(['profile']);
   }
   togglePostManagement() {
-    if (this.user.isAdmin) {
+    if (this.user && this.user.isAdmin) {
       this.router.navigate(['post_management']);
     } else
       this.notificationService.showNotification(
@@ -67,7 +67,7 @@ export class LayoutComponent implements OnInit {
       );
   }
   toggleUserManagement() {
-    if (this.user.isAdmin) {
+    if (this.user && this.user.isAdmin) {
       this.router.navigate(['user_management']);
     } else
       this.notificationService.showNotification(
