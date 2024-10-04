@@ -35,6 +35,9 @@ export class LayoutComponent implements OnInit {
   fixedAdmin = fixedAdmin;
 
   ngOnInit() {
+    this.authService.currentUser$.subscribe((user) => {
+      this.user = user;
+    });
     effect(
       () => {
         this.isLoggedIn = this.authService.isLoggedIn();
@@ -61,6 +64,14 @@ export class LayoutComponent implements OnInit {
   togglePostManagement() {
     if (this.user && this.user.isAdmin) {
       this.router.navigate(['post_management']);
+    } else
+      this.notificationService.showNotification(
+        'You are not authorized to access this page'
+      );
+  }
+  toggleFeedbackManagement() {
+    if (this.user && this.user.isAdmin) {
+      this.router.navigate(['feedback_management']);
     } else
       this.notificationService.showNotification(
         'You are not authorized to access this page'

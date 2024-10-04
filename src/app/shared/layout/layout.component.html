@@ -19,9 +19,10 @@
               cá nhân</a>
             <a *ngIf="user?.isAdmin" class="dropdown-item" style="cursor: pointer;"
               (click)="togglePostManagement()">Quản lý bài viết</a>
+            <a *ngIf="user?.isAdmin" class="dropdown-item" style="cursor: pointer;"
+              (click)="toggleFeedbackManagement()">Quản lý phản hồi</a>
             <a *ngIf="user?.isAdmin && user?._id ===fixedAdmin" class="dropdown-item" style="cursor: pointer;"
               (click)="toggleUserManagement()">Quản lý người dùng</a>
-            <a class="dropdown-item" style="cursor: pointer;" (click)="logout()">Đăng xuất</a>
           </div>
         </li>
         }@else {

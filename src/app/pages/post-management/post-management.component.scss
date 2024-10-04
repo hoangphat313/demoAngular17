@@ -3,6 +3,10 @@
   align-items: center;
   width: 95%;
 }
+.table td {
+  padding: 20px 0;
+  margin: 20px 0;
+}
 .table th,
 .table td {
   padding: 1rem;
@@ -19,19 +23,56 @@
 }
 
 .table-hover tbody tr:hover {
-  background-color: #f1f1f1;
+  background-color: #ECECEC;
 }
-
-.ellipsis {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 200px;
-}
-
 .table td {
   vertical-align: middle;
 }
+td.ellipsis{
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  height: max-content;
+  max-height: 300px;
+  height: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  line-height: 1.3em;
+  word-break: break-word;
+}
+
+
+.ellipsis * {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+
+.ellipsis h1, .ellipsis h2, .ellipsis h3, .ellipsis h4, .ellipsis h5, .ellipsis h6,
+.ellipsis p, .ellipsis ul, .ellipsis ol, .ellipsis li {
+  font-size: inherit;
+  font-weight: normal;
+  margin: 0;
+  padding: 0;
+}
+
+.ellipsis a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.ellipsis img {
+  max-width: 100%;
+  height: auto;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 2px 0;
+}
+
+
 
 //modal
 .modal-header{
@@ -135,5 +176,44 @@
   color: #007bff;
   cursor: pointer;
   transform:scale(1.1);
+}
+
+//menu dropdown
+.menu-wrapper{
+  position: relative;
+  display: inline-block;
+}
+.menu-wrapper:hover{
+  cursor: pointer;
+}
+.menu-wrapper:hover .dropdown-menu{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center ;
+  opacity: 1;
+  visibility: visible;
+}
+.menu-wrapper .icon-menu{
+  cursor: pointer;
+  font-size: 30px;
+  font-weight: bold;
+  align-items: center;
+}
+.dropdown-menu{
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  z-index: 100;
+  min-width: max-content;
+  min-height: max-content;
+  bottom: 30%;
+  left: 100%;
+}
+.dropdown-menu .dropdown-item {
+  cursor: pointer;
+}
+.dropdown-menu .dropdown-item:hover{
+  background-color: #f1f1f1;
 }
 

@@ -7,7 +7,7 @@
     </div>
   </div>
   <div class="post-content">
-    <p *ngFor="let paragraph of formattedContent">{{paragraph}}</p>
+    <p *ngFor="let paragraph of formattedContent" [innerHtml]="paragraph"></p>
   </div>
 </div>
 <div *ngIf="!post" class="not-found">

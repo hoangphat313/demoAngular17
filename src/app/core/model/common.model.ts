@@ -15,6 +15,14 @@ export interface Post {
   images: string[];
   featured: boolean;
 }
+export interface IFeedback {
+  _id: string;
+  name: string;
+  email: string;
+  message: string;
+  createdAt?: Date;
+  status: string;
+}
 export interface LoginPayload {
   email: string;
   password: string;

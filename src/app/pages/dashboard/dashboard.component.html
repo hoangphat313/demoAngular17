@@ -1,6 +1,7 @@
 <div class="img-container">
   <app-slider [images]="images"></app-slider>
 </div>
+<app-banner></app-banner>
 <h2 class="title-container">Những Sản Phẩm Nổi Bật</h2>
 <form action="">
   <input type="search" placeholder="Search for posts..." [formControl]="searchControl" class="form-control" />
@@ -16,11 +17,12 @@
         <div class="card-body">
           <h5 class="card-title text-dark">{{post.title}}</h5>
           <p class="card-text text-muted">{{post.author}}</p>
-          <p class="card-text text-muted">{{post.content}}</p>
+          <p class="card-text text-muted ellipsis" [innerHTML]="post.content"></p>
           <a class="btn btn-outline-success btn-sm" (click)="getPostById(post._id)">Xem Chi Tiết</a>
         </div>
       </div>
     </div>
+    <app-feedback></app-feedback>
     <pagination-controls *ngIf="posts.length>0" [responsive]="true" previousLabel="" nextLabel="" class="page-control"
       (pageChange)="p = $event"></pagination-controls>
   </div>

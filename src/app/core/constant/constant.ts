@@ -20,6 +20,13 @@ export const ApiEndpoint = {
     SearchPost: `${apiUrl}/posts/search`,
     UpdateFeaturedPost: `${apiUrl}/posts/featured`,
   },
+  Feedback: {
+    AddFeedBack: `${apiUrl}/feedbacks/add`,
+    GetAllFeedback: `${apiUrl}/feedbacks/get`,
+    UpdateFeedbackStatus: `${apiUrl}/feedbacks/update`,
+    DeleteFeedback: `${apiUrl}/feedbacks/delete`,
+    SearchFeedback: `${apiUrl}/feedbacks/search`,
+  },
 };
 export const LocalStorage = {
   token: 'USER_TOKEN',

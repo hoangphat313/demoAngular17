@@ -9,6 +9,7 @@ import { PostDetailComponent } from './pages/post-detail/post-detail.component';
 import { PostManagementComponent } from './pages/post-management/post-management.component';
 import { UserManagementComponent } from './pages/user-management/user-management.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { FeedbackManagementComponent } from './pages/feedback-management/feedback-management.component';
 
 export const routes: Routes = [
   {
@@ -46,6 +47,11 @@ export const routes: Routes = [
         path: 'profile',
         canActivate: [authGuard],
         component: ProfileComponent,
+      },
+      {
+        path: 'feedback_management',
+        canActivate: [authGuard],
+        component: FeedbackManagementComponent,
       },
     ],
   },

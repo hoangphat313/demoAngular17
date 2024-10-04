@@ -1,0 +1,87 @@
+<div class="container mt-5 px-2">
+  <form action="" class="form ">
+    <input type="search" placeholder="Search for feedbacks..." [formControl]="searchControl" class="form-control" />
+    <i class="fa fa-search" aria-hidden="true"></i>
+  </form>
+  <div class="table-responsive">
+    <table class="table table-hover table-borderless align-middle">
+      <thead class="bg-light">
+        <tr>
+          <th scope="col" width="15%">Họ Tên</th>
+          <th scope="col" width="30%">Email</th>
+          <th scope="col" width="20%">Phản hồi</th>
+          <th scope="col" class="text-center" width="15%">Trạng thái</th>
+          <th scope="col" class="text-center" width="15%">Hành Động</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let feedback of feedbacks | paginate: {itemsPerPage: 5, currentPage: p }">
+          <td class="ellipsis"><span class="ms-1">{{feedback.name}}</span></td>
+          <td class="ellipsis"> {{feedback.email}}</td>
+          <td class="ellipsis"> {{feedback.message}}</td>
+          <td class="text-center">
+            <select [(ngModel)]="feedback.status" (change)="updateStatusFeedback(feedback)">
+              <option value="Đang chờ">Đang chờ</option>
+              <option value="Phê duyệt">Phê duyệt</option>
+              <option value="Từ chối">Từ chối</option>
+            </select>
+          <td>
+            <div class="text-center">
+              <div class="menu-wrapper">
+                <i class="material-icons icon-menu">menu</i>
+                <div class="dropdown-menu">
+                  <i class="material-icons dropdown-item" (click)="onDetailFeedback(feedback)">remove_red_eye</i>
+                  <i class="material-icons dropdown-item " style="color: red;"
+                    (click)="openDeleteForm(feedback)">delete</i>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <pagination-controls [responsive]="true" previousLabel="" nextLabel="" class="page-control"
+      (pageChange)="p = $event"></pagination-controls>
+  </div>
+  <!-- Modal delete -->
+  <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteConfirmModalLabel">Xác Nhận Xóa</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Bạn có muốn xóa phản hồi này không ?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+          <button type="button" class="btn btn-danger" (click)="onDelete()">Xác nhận</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal hiển thị thông tin chi tiết -->
+  <div class="modal fade" id="feedbackDetailModal" tabindex="-1" aria-labelledby="feedbackDetailModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="feedbackDetailModalLabel">Thông Tin Chi Tiết Phản Hồi</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p><strong>Họ Tên:</strong> {{selectedFeedback?.name}}</p>
+          <p><strong>Email:</strong> {{selectedFeedback?.email}}</p>
+          <p><strong>Phản hồi:</strong> {{selectedFeedback?.message}}</p>
+          <p><strong>Trạng thái:</strong> {{selectedFeedback?.status}}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

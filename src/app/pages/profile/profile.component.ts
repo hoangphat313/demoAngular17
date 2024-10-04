@@ -69,6 +69,7 @@ export class ProfileComponent implements OnInit {
         next: (response) => {
           if (response.data) {
             this.user = response.data;
+            this.authService.setCurrentUser(this.user) //set current user
             this.notificationService.showNotification(
               'User updated successfully'
             );

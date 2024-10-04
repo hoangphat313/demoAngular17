@@ -7,7 +7,7 @@ import {
   User,
 } from '../model/common.model';
 import { ApiEndpoint, LocalStorage } from '../constant/constant';
-import { map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../shared/notifications/notification.service';
 
@@ -18,6 +18,9 @@ export class AuthService {
   router = inject(Router);
   isLoggedIn = signal<boolean>(false);
   isAdmin = signal<boolean>(false);
+  
+  private currentUserSubject = new BehaviorSubject<User | null>(null);
+  public currentUser$ = this.currentUserSubject.asObservable();
 
   constructor(
     private _http: HttpClient,
@@ -27,7 +30,10 @@ export class AuthService {
       this.isLoggedIn.update(() => true);
     }
   }
-  
+  setCurrentUser(user: User) {
+    this.currentUserSubject.next(user);
+  }
+
   register(payload: RegisterPayload) {
     return this._http
       .post<ApiResponse<User>>(`${ApiEndpoint.Auth.Register}`, payload)
@@ -64,6 +70,7 @@ export class AuthService {
   }
   logout() {
     localStorage.removeItem(LocalStorage.token);
+    sessionStorage.removeItem('bannerShown');
     this.notificationService.showNotification('Logout successful');
     this.isLoggedIn.update(() => false);
     this.router.navigate(['login']);
@@ -99,9 +106,17 @@ export class AuthService {
     userId: string,
     user: User
   ): Observable<{ message: string; success: boolean; data: User }> {
-    return this._http.put<{ message: string; success: boolean; data: User }>(
-      `${ApiEndpoint.Auth.UpdateUserDetail}?userId=${userId}`,
-      user
-    );
+    return this._http
+      .put<{ message: string; success: boolean; data: User }>(
+        `${ApiEndpoint.Auth.UpdateUserDetail}?userId=${userId}`,
+        user
+      )
+      .pipe(
+        tap((response) => {
+          if (response.data) {
+            this.setCurrentUser(response.data);
+          }
+        })
+      );
   }
 }

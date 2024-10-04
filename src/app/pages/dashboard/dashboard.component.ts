@@ -10,6 +10,8 @@ import { debounceTime, Subscription, switchMap } from 'rxjs';
 import { NotificationService } from '../../shared/notifications/notification.service';
 import { SliderComponent } from '../../shared/slider/slider.component';
 import { HammerModule } from '@angular/platform-browser';
+import { FeedbackComponent } from "../feedback/feedback.component";
+import { BannerComponent } from "../../shared/banner/banner.component";
 
 @Component({
   selector: 'app-dashboard',
@@ -21,7 +23,9 @@ import { HammerModule } from '@angular/platform-browser';
     ReactiveFormsModule,
     SliderComponent,
     HammerModule,
-  ],
+    FeedbackComponent,
+    BannerComponent
+],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })

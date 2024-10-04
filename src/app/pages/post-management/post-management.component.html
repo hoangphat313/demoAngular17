@@ -10,35 +10,40 @@
     <table class="table table-hover table-borderless align-middle">
       <thead class="bg-light">
         <tr>
-
           <th scope="col" width="15%">Tựa Đề</th>
           <th scope="col" width="30%">Nội Dung</th>
           <th scope="col" width="15%">Tác Giả</th>
           <th scope="col" class="text-center" width="10%">Hình Ảnh</th>
-          <th scope="col" class="text-center" width="10%">Hiện bài viết</th>
-          <th scope="col" class="text-center" width="10%">Hành Động</th>
+          <th scope="col" class="text-center" width="15%">Hiện bài viết</th>
+          <th scope="col" class="text-center" width="15%">Hành Động</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let post of posts | paginate: {itemsPerPage: 5, currentPage: p }">
-
-          <td class="ellipsis"><span class="ms-1">{{post.title}}</span></td>
-          <td class="ellipsis"> {{post.content}}</td>
-          <td>{{post.author}}</td>
-          <td class="text-end">
+          <td><span class="ms-1"><strong>{{post.title}}</strong></span></td>
+          <td class="ellipsis" [innerHTML]="post.content |safeHtml"></td>
+          <td><strong>{{post.author}}</strong></td>
+          <td class="text-center">
             <img *ngIf="post.images.length>0" [src]="post.images[0]" alt="Post Image" class="img-thumbnail" width="50">
           </td>
           <td>
-            <div style="display: flex;align-items: center;justify-content: center;">
-              <p><mat-slide-toggle [checked]="post.featured" (change)="toggleFeaturedPost(post._id,post.featured)">
+            <div class="text-center">
+              <p>
+                <mat-slide-toggle [checked]="post.featured" (change)="toggleFeaturedPost(post._id,post.featured)">
                 </mat-slide-toggle>
               </p>
             </div>
           </td>
           <td>
-            <div style="display: flex;align-items: center;justify-content: center;">
-              <i class="material-icons " style="color: blue;cursor: pointer;" (click)="editPost(post)">edit</i>
-              <i class="material-icons" style="color: red; cursor: pointer;" (click)="openDeletePost(post)">delete</i>
+            <div class="text-center">
+              <div class="menu-wrapper">
+                <i class="material-icons icon-menu">menu</i>
+                <div class="dropdown-menu">
+                  <i class="material-icons dropdown-item " style="color: blue;"  (click)="editPost(post)">edit</i>
+                  <i class="material-icons dropdown-item" style="color: red;"(click)="openDeletePost(post)">delete</i>
+                </div>
+              </div>
+
             </div>
           </td>
         </tr>
@@ -52,7 +57,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="editPostModalLabel">
-              {{isEditMoe ? 'Sửa Bài Viết': 'Thêm Bài Viết'}}</h5>
+              {{isEditMode ? 'Sửa Bài Viết': 'Thêm Bài Viết'}}</h5>
           </div>
           <div class="modal-body">
             <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
@@ -62,7 +67,8 @@
               </div>
               <div class="mb-3">
                 <label for="content">Nội dung</label>
-                <textarea style="height: 150px;" id="content" formControlName="content" class="form-control"></textarea>
+                <ckeditor [editor]="Editor" id="content" class="form-control" formControlName="content"></ckeditor>
+                <!-- <textarea style="height: 150px;" id="content" formControlName="content" class="form-control"></textarea> -->
               </div>
               <div class="mb-3">
                 <label for="author">Tác giả</label>

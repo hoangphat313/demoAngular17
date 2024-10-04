@@ -20,6 +20,8 @@
     "@angular/platform-browser": "^18.2.0",
     "@angular/platform-browser-dynamic": "^18.2.0",
     "@angular/router": "^18.2.0",
+    "@ckeditor/ckeditor5-angular": "^9.0.0",
+    "@ckeditor/ckeditor5-build-classic": "^43.2.0",
     "@ng-bootstrap/ng-bootstrap": "^17.0.1",
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.3",

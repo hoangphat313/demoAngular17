@@ -14,6 +14,9 @@ import { NotificationService } from '../../shared/notifications/notification.ser
 import { NgxPaginationModule } from 'ngx-pagination';
 import { debounceTime, Subscription, switchMap } from 'rxjs';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { SafeHtmlPipe } from '../../pipes/safe-html.pipe';
 
 @Component({
   selector: 'app-post-management',
@@ -23,6 +26,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     ReactiveFormsModule,
     NgxPaginationModule,
     MatSlideToggleModule,
+    CKEditorModule,
+    SafeHtmlPipe,
   ],
   templateUrl: './post-management.component.html',
   styleUrl: './post-management.component.scss',
@@ -32,11 +37,12 @@ export class PostManagementComponent {
   posts: Post[] = [];
   fb = inject(FormBuilder);
   postForm!: FormGroup;
-  isEditMoe: boolean = false;
+  isEditMode: boolean = false;
   selectedPost: Post | null = null;
   p: number = 1;
   searchControl = new FormControl();
   private searchSubscription = new Subscription();
+  public Editor = ClassicEditor.default;
 
   constructor(private notificationService: NotificationService) {
     this.postForm = this.fb.group({
@@ -79,13 +85,13 @@ export class PostManagementComponent {
     );
   }
   editPost(post: Post) {
-    this.isEditMoe = true;
+    this.isEditMode = true;
     this.selectedPost = post;
     this.postForm.patchValue(post);
     this.toggleModal(true);
   }
   openAddPost() {
-    this.isEditMoe = false;
+    this.isEditMode = false;
     this.postForm.reset();
     this.toggleModal(true);
   }
@@ -97,6 +103,7 @@ export class PostManagementComponent {
       modal.show();
     }
   }
+
   onDelete(): void {
     if (this.selectedPost) {
       this.postService.deletePost(this.selectedPost._id).subscribe(
@@ -126,7 +133,7 @@ export class PostManagementComponent {
   }
 
   onSubmit(): void {
-    if (this.isEditMoe && this.selectedPost) {
+    if (this.isEditMode && this.selectedPost) {
       this.postService
         .updatePost(this.selectedPost._id, this.postForm.value)
         .subscribe(

@@ -1,0 +1,15 @@
+<div class="chat-bubble" (click)="toggleOpenForm()">
+  <div class="chat-icon">
+    <i class="material-icons icon-feedback">feedback</i>
+  </div>
+  <div class="feedback-form-container" *ngIf="isOpen" (click)="$event.stopPropagation()">
+    <h2>Phản hồi</h2>
+    <form class="feedback-form-horizontal" (ngSubmit)="onSubmit()">
+      <input name="name" type="text" placeholder="Tên của bạn" [(ngModel)]="feedbackData.name" required />
+      <input name="email" type="email" placeholder="Email" [(ngModel)]="feedbackData.email" required />
+      <textarea name="message" id="message" type="text" [(ngModel)]="feedbackData.message"
+        placeholder="Phản hồi của bạn" required></textarea>
+      <button type="submit">Hoàn thành</button>
+    </form>
+  </div>
+</div>
