@@ -10,6 +10,7 @@ import {
 import { CommonModule } from '@angular/common';
 import * as bootstrap from 'bootstrap';
 import { NotificationService } from '../../shared/notifications/notification.service';
+import { FavouriteService } from '../../core/services/favourite.service';
 
 @Component({
   selector: 'app-profile',
@@ -22,7 +23,11 @@ export class ProfileComponent implements OnInit {
   user: User | null = null;
   updateForm!: FormGroup;
   notificationService = inject(NotificationService);
-  constructor(private authService: AuthService, private fb: FormBuilder) {
+  constructor(
+    private authService: AuthService,
+    private fb: FormBuilder,
+    private favouriteService: FavouriteService
+  ) {
     this.updateForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', Validators.required],
@@ -33,11 +38,9 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.loadUserDetail();
   }
-
   loadUserDetail(): void {
     this.authService.userDetails().subscribe(
       (response) => {
-        console.log(response);
         if (response.data) {
           this.user = response.data;
           this.updateForm.patchValue({
@@ -46,6 +49,7 @@ export class ProfileComponent implements OnInit {
             phoneNumber: response.data.phoneNumber,
             avatarUrl: response.data.avatarUrl,
           });
+          this.loadUserFavourite();
         } else {
           console.log('User data is undefined');
         }
@@ -55,6 +59,21 @@ export class ProfileComponent implements OnInit {
       }
     );
   }
+  loadUserFavourite() {
+    if (this.user && this.user._id) {
+      this.favouriteService.getAllFavourites(this.user._id).subscribe(
+        (response) => {
+          if (response.data) {
+            console.log(response.data);
+          }
+        },
+        (error) => {
+          console.log('Error fetching favourites:', error);
+        }
+      );
+    }
+  }
+
   openEditForm(): void {
     const modalEl = document.getElementById('editUserModal');
     if (modalEl) {
@@ -69,7 +88,7 @@ export class ProfileComponent implements OnInit {
         next: (response) => {
           if (response.data) {
             this.user = response.data;
-            this.authService.setCurrentUser(this.user) //set current user
+            this.authService.setCurrentUser(this.user); //set current user
             this.notificationService.showNotification(
               'User updated successfully'
             );

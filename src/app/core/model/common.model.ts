@@ -5,6 +5,7 @@ export interface User {
   isAdmin: boolean;
   phoneNumber: string;
   avatarUrl: string;
+  favourites: string[];
 }
 export interface Post {
   _id: string;

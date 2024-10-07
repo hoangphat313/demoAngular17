@@ -27,6 +27,11 @@ export const ApiEndpoint = {
     DeleteFeedback: `${apiUrl}/feedbacks/delete`,
     SearchFeedback: `${apiUrl}/feedbacks/search`,
   },
+  Favourite: {
+    AddFavourite: `${apiUrl}/users/addFavourite`,
+    RemoveFavourite: `${apiUrl}/users/removeFavourite`,
+    GetAllFavourites: `${apiUrl}/users/getFavourite`,
+  },
 };
 export const LocalStorage = {
   token: 'USER_TOKEN',

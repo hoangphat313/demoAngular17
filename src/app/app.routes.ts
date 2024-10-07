@@ -10,6 +10,7 @@ import { PostManagementComponent } from './pages/post-management/post-management
 import { UserManagementComponent } from './pages/user-management/user-management.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { FeedbackManagementComponent } from './pages/feedback-management/feedback-management.component';
+import { UserFavouriteComponent } from './pages/user-favourite/user-favourite.component';
 
 export const routes: Routes = [
   {
@@ -52,6 +53,11 @@ export const routes: Routes = [
         path: 'feedback_management',
         canActivate: [authGuard],
         component: FeedbackManagementComponent,
+      },
+      {
+        path: 'user_favourite',
+        canActivate: [authGuard],
+        component: UserFavouriteComponent,
       },
     ],
   },

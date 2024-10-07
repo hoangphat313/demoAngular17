@@ -6,7 +6,7 @@ import config from '../config/config';
 import { AuthRequest } from '../middlewares/authenticate';
 import { ApiResponse } from '../post/PostTypes';
 import { IUser } from './UserTypes';
-
+import mongoose from 'mongoose';
 
 const register = async (req: Request, res: Response, next: NextFunction) => {
   const { name, email, password, phoneNumber } = req.body;
@@ -135,14 +135,14 @@ const updateUserDetail = async (
 ) => {
   try {
     const userId = req.query.userId;
-    const { name, email, avatarUrl,phoneNumber } = req.body;
+    const { name, email, avatarUrl, phoneNumber } = req.body;
 
     if (!userId) {
       return res.status(400).json({ message: 'User ID is required' });
     }
     const updateUser = await UserSchema.findByIdAndUpdate(
       userId,
-      { name, email, avatarUrl,phoneNumber },
+      { name, email, avatarUrl, phoneNumber },
       { new: true }
     );
     if (!updateUser) {
@@ -220,6 +220,99 @@ const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
     res.status(400).json({ success: false, message: error });
   }
 };
+const addFavourite = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { userId, postId } = req.body;
+  if (!mongoose.isValidObjectId(userId) || !mongoose.isValidObjectId(postId)) {
+    return res.status(400).json({ message: 'Invalid user or post ID' });
+  }
+  try {
+    const user = await UserSchema.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    if (!user.favourites.includes(postId)) {
+      user.favourites.push(postId);
+      await user.save();
+      return res.status(200).json({
+        success: true,
+        message: 'Favourite added successfully',
+        data: user.favourites,
+      });
+    } else {
+      return res
+        .status(400)
+        .json({ success: false, message: 'Favourite already exists' });
+    }
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error });
+  }
+};
+const removeFavourite = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { userId, postId } = req.body;
+  if (
+    !postId ||
+    !userId ||
+    !mongoose.isValidObjectId(userId) ||
+    !mongoose.isValidObjectId(postId)
+  ) {
+    return res.status(400).json({ message: 'Invalid user or post ID' });
+  }
+  try {
+    const user = await UserSchema.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (user.favourites.includes(postId)) {
+      user.favourites = user.favourites.filter(
+        (fav) => fav.toString() !== postId
+      );
+      await user.save();
+      return res.status(200).json({
+        message: 'Đã xóa khỏi danh sách yêu thích.',
+        data: user.favourites,
+      });
+    } else {
+      return res
+        .status(404)
+        .json({ message: 'Bài viết không tồn tại trong danh sách yêu thích.' });
+    }
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error });
+  }
+};
+const getAllFavourites = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { userId } = req.query;
+  if (!mongoose.isValidObjectId(userId)) {
+    return res.status(400).json({ success: false, message: 'Invalid user ID' });
+  }
+  try {
+    const user = await UserSchema.findById(userId)
+      .populate('favourites')
+      .exec();
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: 'User not found' });
+    }
+    const favouritesPost = user.favourites;
+    return res.status(200).json({ success: true, data: favouritesPost });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error });
+  }
+};
 export {
   register,
   login,
@@ -229,4 +322,7 @@ export {
   searchUser,
   updateUserDetail,
   deleteUser,
+  addFavourite,
+  removeFavourite,
+  getAllFavourites,
 };

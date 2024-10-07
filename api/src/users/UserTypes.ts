@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+
 export interface IUser {
   _id: string;
   name: string;
@@ -6,4 +8,5 @@ export interface IUser {
   isAdmin: boolean;
   phoneNumber:string;
   avatarUrl: string;
+  favourites: mongoose.Schema.Types.ObjectId[]
 }

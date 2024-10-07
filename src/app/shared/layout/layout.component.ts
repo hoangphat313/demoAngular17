@@ -1,30 +1,28 @@
-import {
-  Component,
-  effect,
-  HostListener,
-  inject,
-  Injector,
-  OnInit,
-} from '@angular/core';
+import { Component, effect, inject, Injector, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { Post, User } from '../../core/model/common.model';
 import { NotificationService } from '../notifications/notification.service';
-import { debounceTime, Subscription, switchMap } from 'rxjs';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { PostService } from '../../core/services/post.service';
 import { CommonModule } from '@angular/common';
 import { fixedAdmin } from '../../core/constant/constant';
+import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons';
+import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { FavouriteService } from '../../core/services/favourite.service';
+
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [RouterModule, ReactiveFormsModule, CommonModule],
+  imports: [RouterModule, ReactiveFormsModule, CommonModule, FontAwesomeModule],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss',
 })
 export class LayoutComponent implements OnInit {
   authService = inject(AuthService);
   postService = inject(PostService);
+  favouriteService = inject(FavouriteService);
   notificationService = inject(NotificationService);
   isLoggedIn = this.authService.isLoggedIn();
   injector = inject(Injector);
@@ -33,6 +31,8 @@ export class LayoutComponent implements OnInit {
   searchControl = new FormControl();
   posts: Post[] = [];
   fixedAdmin = fixedAdmin;
+  faHeart = faHeartRegular;
+  faCart = faCartShopping;
 
   ngOnInit() {
     this.authService.currentUser$.subscribe((user) => {
@@ -84,5 +84,14 @@ export class LayoutComponent implements OnInit {
       this.notificationService.showNotification(
         'You are not authorized to access this page'
       );
+  }
+  toggleNavigateFav() {
+    if (this.user) {
+      this.router.navigate(['user_favourite']);
+      this.favouriteService.getAllFavourites(this.user._id);
+    }
+  }
+  toggleNavHome() {
+    this.router.navigate(['']);
   }
 }

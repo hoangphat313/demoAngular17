@@ -1,18 +1,9 @@
-<div class="img-container">
-  <app-slider [images]="images"></app-slider>
-</div>
-<app-banner></app-banner>
-<h2 class="title-container">Những Sản Phẩm Nổi Bật</h2>
-<!-- search -->
-<form action="">
-  <input type="search" placeholder="Search for posts..." [formControl]="searchControl" class="form-control" />
-  <i class="fa fa-search" aria-hidden="true"></i>
-</form>
+<h2 class="title-container" *ngIf="posts.length>0">Những Sản Phẩm Yêu Thích</h2>
 <div class="container mt-5">
-  <div class="row">
+  <div class="row" *ngIf="posts.length>0;else noProducts">
     <div class="col-lg-3 mb-4" *ngFor="let post of posts | paginate: {itemsPerPage:8,currentPage:p}">
       <div class="card shadow-sm border-0 rounded-4">
-        <img *ngIf="post.images.length > 0" [src]="post.images[0]" (click)="getPostById(post._id)" alt=""
+        <img *ngIf="post.images.length > 0;" [src]="post.images[0]" (click)="getPostById(post._id)" alt=""
           class="card-img-top img-post"
           style="cursor: pointer; border-top-left-radius: 12px; border-top-right-radius: 12px;">
         <div class="card-body">
@@ -27,8 +18,14 @@
         </div>
       </div>
     </div>
-    <app-feedback></app-feedback>
     <pagination-controls *ngIf="posts.length>0" [responsive]="true" previousLabel="" nextLabel="" class="page-control"
       (pageChange)="p = $event"></pagination-controls>
   </div>
 </div>
+<ng-template #noProducts>
+  <div class="text-center">
+    <ng-lottie class="lottie-animation" [options]="lottieOptions" width="500px" height="500px"
+      style="display: flex;align-items: center;justify-content: center;" autoplay="true" loop="true">
+    </ng-lottie>
+  </div>
+</ng-template>

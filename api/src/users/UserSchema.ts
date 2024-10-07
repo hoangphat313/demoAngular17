@@ -28,6 +28,11 @@ const UserSchema = new mongoose.Schema<IUser>(
       default: false,
       required: false,
     },
+    favourites: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: 'Post',
+      default: [],
+    },
   },
   { timestamps: true }
 );
