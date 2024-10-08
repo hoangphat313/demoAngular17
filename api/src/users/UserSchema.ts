@@ -33,6 +33,12 @@ const UserSchema = new mongoose.Schema<IUser>(
       ref: 'Post',
       default: [],
     },
+    cartData: [
+      {
+        postId: { type: mongoose.Schema.Types.ObjectId, ref: 'Post' },
+        quantity: { type: Number, required: true },
+      },
+    ],
   },
   { timestamps: true }
 );

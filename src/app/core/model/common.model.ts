@@ -6,6 +6,27 @@ export interface User {
   phoneNumber: string;
   avatarUrl: string;
   favourites: string[];
+  cartData: ICart[];
+}
+export interface ICart {
+  postId: Post;
+  quantity: number;
+}
+export interface IOrderData {
+  userId: string;
+  items: IOrderItem[];
+  amount: number;
+  address: IOrderAddress;
+  paymentMethod: string;
+}
+export interface IOrderItem {
+  postId: Post;
+  quantity: number;
+}
+export interface IOrderAddress {
+  houseNumber: string;
+  street: string;
+  city: string;
 }
 export interface Post {
   _id: string;
@@ -15,6 +36,7 @@ export interface Post {
   createdAt?: Date;
   images: string[];
   featured: boolean;
+  price: number;
 }
 export interface IFeedback {
   _id: string;
@@ -40,4 +62,14 @@ export interface ApiResponse<T> {
   error?: string;
   token?: string;
   data: T;
+}
+export interface IOrder {
+  _id: string;
+  userId: string;
+  items: Array<Object>;
+  amount: number;
+  address: {};
+  status: string;
+  date: Date;
+  paymentMethod: string;
 }

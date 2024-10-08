@@ -1,0 +1,27 @@
+<div class="container mt-4">
+  <h2 class="text-center">My Orders</h2>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="list-group">
+        <div *ngFor="let order of orders  | paginate: {itemsPerPage: 4, currentPage: p }" class="list-group-item">
+          <div class="list-group-item-content">
+            <p class="mb-1"><strong>Address:</strong> {{ order.address.houseNumber }}, {{ order.address.street }}, {{
+              order.address.city }}
+            </p>
+            <p class="mb-1"><strong>Status:</strong> <span class="badge badge-info">{{ order.status }}</span></p>
+            <p class="mb-1"><strong>Date:</strong> {{ order.date }}</p>
+            <p class="mb-1"><strong>Payment Method:</strong> {{ order.paymentMethod }}</p>
+            <p class="mb-1"><strong>Total Amount: </strong>{{ order.amount |formatCurrency}}</p>
+          </div>
+          <div class="btn-delete">
+            <i class="material-icons" [ngStyle]="{ 'color':  'red', 'cursor' : 'pointer' }">delete</i>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+  <pagination-controls [responsive]="true" previousLabel="" nextLabel="" class="page-control"
+    (pageChange)="p = $event"></pagination-controls>
+</div>

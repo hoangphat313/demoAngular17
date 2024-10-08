@@ -2,50 +2,59 @@
   <div class="container">
     <img src="assets/logo.png" (click)="toggleNavHome()" class="img-logo" alt="img-logo">
     <div class="title-container">
-      <span (click)="toggleNavHome()" class="title-header" href="#">TBOOK</span>
-      <span (click)="toggleNavHome()" class="title-subHeader" href="#">Read, Dream, Discover!</span>
+      <span (click)="toggleNavHome()" class="title-header" href="javascript:void(0)">TBOOK</span>
+      <span (click)="toggleNavHome()" class="title-subHeader" href="javascript:void(0)">Read, Dream, Discover!</span>
     </div>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="javascript:void(0)navbarNav"
       aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
       <ul class="navbar-nav">
         @if (isLoggedIn) {
-        <button class="btn btn-navFav" style="height: 30px; width: 30px" (click)="toggleNavigateFav()">
-          <fa-icon [icon]="faHeart">
-          </fa-icon>
+        <button class="btn btn-navFav" style="height: 20px; width: 20px" (click)="toggleNavigateFav()">
+          <fa-icon [icon]="faHeart"></fa-icon>
         </button>
-        <button class="btn btn-navFav" style="height: 30px; width: 30px">
-          <fa-icon [icon]="faCart">
-          </fa-icon>
+        <button class="btn btn-navFav" style="height: 20px; width: 20px" (click)="toggleNavigateCart()">
+          <fa-icon [icon]="faCart"></fa-icon>
         </button>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false"> <img
-              [src]="user?.avatarUrl ? user?.avatarUrl:'assets/default_avatar.png'" alt="Avatar" class="avatar" />
-            {{user?.name}}
+          <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button"
+            (click)="toggleDropdown()" aria-haspopup="true" aria-expanded="false">
+            <img [src]="user?.avatarUrl ? user?.avatarUrl : 'assets/default_avatar.png'" alt="Avatar" class="avatar" />
+            {{ user?.name }}
           </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" style="cursor: pointer;" (click)="toggleProfile()">Thông tin
-              cá nhân</a>
+          <div class="dropdown-menu" [ngClass]="{'show': isDropdownOpen}" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" style="cursor: pointer;" (click)="toggleProfile()">Thông tin cá nhân</a>
+            <a class="dropdown-item" style="cursor: pointer;" (click)="toggleMyOrders()">Đơn hàng của tôi</a>
+            <!-- Quản trị hệ thống -->
+        <li class="nav-item dropdown">
+          <a class="dropdown-item dropdown-toggle" href="javascript:void(0)" id="systemManagement" role="button"
+            (click)="toggleSystemManagement()" aria-haspopup="true" aria-expanded="false">Quản trị hệ thống</a>
+          <div class="dropdown-menu" [ngClass]="{'show': isSystemDropdownOpen}" aria-labelledby="systemManagement">
             <a *ngIf="user?.isAdmin" class="dropdown-item" style="cursor: pointer;"
               (click)="togglePostManagement()">Quản lý bài viết</a>
             <a *ngIf="user?.isAdmin" class="dropdown-item" style="cursor: pointer;"
+              (click)="toggleOrderManagement()">Quản lý đơn hàng</a>
+            <a *ngIf="user?.isAdmin" class="dropdown-item" style="cursor: pointer;"
               (click)="toggleFeedbackManagement()">Quản lý phản hồi</a>
-            <a *ngIf="user?.isAdmin && user?._id ===fixedAdmin" class="dropdown-item" style="cursor: pointer;"
+            <a *ngIf="user?.isAdmin && user?._id === fixedAdmin" class="dropdown-item" style="cursor: pointer;"
               (click)="toggleUserManagement()">Quản lý người dùng</a>
           </div>
         </li>
-        }@else {
-        <li class="nav-item">
-          <a class="nav-link" routerLink="login">Đăng Nhập</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="register">Đăng Ký</a>
-        </li>}
-      </ul>
     </div>
+    </li>
+    } @else {
+    <li class="nav-item">
+      <a class="nav-link" routerLink="login">Đăng Nhập</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="register">Đăng Ký</a>
+    </li>
+    }
+    </ul>
+  </div>
+
   </div>
 </nav>
 

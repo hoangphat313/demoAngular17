@@ -32,6 +32,23 @@ export const ApiEndpoint = {
     RemoveFavourite: `${apiUrl}/users/removeFavourite`,
     GetAllFavourites: `${apiUrl}/users/getFavourite`,
   },
+  Cart: {
+    AddToCart: `${apiUrl}/carts/add`,
+    RemoveFromCart: `${apiUrl}/carts/remove`,
+    GetCartItems: `${apiUrl}/carts/get`,
+    UpdateCart: `${apiUrl}/carts/update`,
+    DeleteItem: `${apiUrl}/carts/delete`,
+    ClearCart:`${apiUrl}/carts/clear`
+  },
+  Order: {
+    PlaceOrder: `${apiUrl}/orders/place`,
+    GetAllOrdersForUser: `${apiUrl}/orders/getAllOrdersForUser`,
+    UpdateDetailOrder: `${apiUrl}/orders/update`,
+    GetAllOrdersForAdmin: `${apiUrl}/orders/getAllOrdersForAdmin`,
+    UpdateStatusOrder: `${apiUrl}/orders/updateStatus`,
+    DeleteOrder: `${apiUrl}/orders/delete`,
+    SearchOrder:`${apiUrl}/orders/search`,
+  },
 };
 export const LocalStorage = {
   token: 'USER_TOKEN',

@@ -1,31 +1,43 @@
 <h2 class="title-container" *ngIf="posts.length>0">Những Sản Phẩm Yêu Thích</h2>
 <div class="container mt-5">
-  <div class="row" *ngIf="posts.length>0;else noProducts">
-    <div class="col-lg-3 mb-4" *ngFor="let post of posts | paginate: {itemsPerPage:8,currentPage:p}">
-      <div class="card shadow-sm border-0 rounded-4">
-        <img *ngIf="post.images.length > 0;" [src]="post.images[0]" (click)="getPostById(post._id)" alt=""
-          class="card-img-top img-post"
-          style="cursor: pointer; border-top-left-radius: 12px; border-top-right-radius: 12px;">
-        <div class="card-body">
-          <h5 class="card-title text-dark">{{post.title}}</h5>
-          <p class="card-text text-muted">{{post.author}}</p>
-          <p class="card-text text-muted ellipsis" [innerHTML]="post.content"></p>
-          <a class="btn btn-outline-success btn-sm m-2" (click)="getPostById(post._id)">Xem Chi Tiết</a>
-          <button class="btn btn-outline-success btn-sm" (click)="toggleFavourite(post._id)">
-            <fa-icon [icon]="favouritePostIds.has(post._id) ?faHeartFilled:faHeart">
-            </fa-icon>
-          </button>
+  <div *ngIf="!isLoading; else loadingTemplate">
+    <div class="row" *ngIf="posts.length>0;else noProducts">
+      <div class="col-lg-3 mb-4" *ngFor="let post of posts | paginate: {itemsPerPage:8,currentPage:p}">
+        <div class="card shadow-sm border-0 rounded-4">
+          <img *ngIf="post.images.length > 0;" [src]="post.images[0]" (click)="getPostById(post._id)" alt=""
+            class="card-img-top img-post"
+            style="cursor: pointer; border-top-left-radius: 12px; border-top-right-radius: 12px;">
+          <div class="card-body">
+            <h5 class="card-title text-dark">{{post.title}}</h5>
+            <p class="card-text text-muted">{{post.author}}</p>
+            <p class="card-text text-muted"><Strong>Giá Bán:</Strong> {{post.price | formatCurrency}}</p>
+            <a class="btn btn-outline-success btn-sm m-2" (click)="getPostById(post._id)">Xem Chi Tiết</a>
+            <button class="btn btn-outline-success btn-sm" (click)="toggleFavourite(post._id)">
+              <fa-icon [icon]="favouritePostIds.has(post._id) ?faHeartFilled:faHeart">
+              </fa-icon>
+            </button>
+          </div>
         </div>
       </div>
+      <pagination-controls *ngIf="posts.length>0" [responsive]="true" previousLabel="" nextLabel="" class="page-control"
+        (pageChange)="p = $event"></pagination-controls>
     </div>
-    <pagination-controls *ngIf="posts.length>0" [responsive]="true" previousLabel="" nextLabel="" class="page-control"
-      (pageChange)="p = $event"></pagination-controls>
   </div>
+
+
 </div>
+
 <ng-template #noProducts>
   <div class="text-center">
     <ng-lottie class="lottie-animation" [options]="lottieOptions" width="500px" height="500px"
       style="display: flex;align-items: center;justify-content: center;" autoplay="true" loop="true">
     </ng-lottie>
+  </div>
+</ng-template>
+
+<ng-template #loadingTemplate>
+  <div class="text-center">
+    <ng-lottie style="display: flex;align-items: center;justify-content: center;" class="lottie-animation"
+      [options]="lottieLoadingOptions" width="100px" height="100px" autoplay="true" loop="true"></ng-lottie>
   </div>
 </ng-template>

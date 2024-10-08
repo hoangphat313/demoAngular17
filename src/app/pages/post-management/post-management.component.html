@@ -14,8 +14,9 @@
           <th scope="col" width="30%">Nội Dung</th>
           <th scope="col" width="15%">Tác Giả</th>
           <th scope="col" class="text-center" width="10%">Hình Ảnh</th>
-          <th scope="col" class="text-center" width="15%">Hiện bài viết</th>
-          <th scope="col" class="text-center" width="15%">Hành Động</th>
+          <th scope="col" class="text-center" width="10%">Giá Bán</th>
+          <th scope="col" class="text-center" width="10%">Hiện bài viết</th>
+          <th scope="col" class="text-center" width="10%">Hành Động</th>
         </tr>
       </thead>
       <tbody>
@@ -25,6 +26,13 @@
           <td><strong>{{post.author}}</strong></td>
           <td class="text-center">
             <img *ngIf="post.images.length>0" [src]="post.images[0]" alt="Post Image" class="img-thumbnail" width="50">
+          </td>
+          <td>
+            <div class="text-center">
+              <p>
+                <strong>{{post.price | formatCurrency}}</strong>
+              </p>
+            </div>
           </td>
           <td>
             <div class="text-center">
@@ -68,7 +76,7 @@
               <div class="mb-3">
                 <label for="content">Nội dung</label>
                 <ckeditor [editor]="Editor" id="content" class="form-control" formControlName="content"></ckeditor>
-                <!-- <textarea style="height: 150px;" id="content" formControlName="content" class="form-control"></textarea> -->
+
               </div>
               <div class="mb-3">
                 <label for="author">Tác giả</label>
@@ -77,6 +85,10 @@
               <div class="mb-3">
                 <label for="images">Hình ảnh</label>
                 <input id="images" formControlName="images" class="form-control" />
+              </div>
+              <div class="mb-3">
+                <label for="price">Giá Bán (VND)</label>
+                <input id="price" formControlName="price" class="form-control" appCurrencyFormat />
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>

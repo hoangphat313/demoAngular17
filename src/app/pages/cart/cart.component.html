@@ -1,0 +1,85 @@
+<div class="cart-container" *ngIf="!isLoading; else loadingTemplate">
+  <div *ngIf="cartItems.length>0;else emptyCart">
+    <div class="cart-item" *ngFor="let item of cartItems">
+      <div class="cart-item-image">
+        <img [src]="item.postId.images[0]" alt="{{ item.postId.title }}" />
+      </div>
+      <div class="cart-item-details">
+        <h3>{{ item.postId.title }}</h3>
+        <p>{{ item.postId.author }}</p>
+        <p>{{ item.postId.price | formatCurrency }}</p>
+      </div>
+      <div class="cart-item-quantity">
+        <button (click)="updateQuantity(item,-1)">-</button>
+        <span>{{ item.quantity }}</span>
+        <button (click)="updateQuantity(item,1)">+</button>
+      </div>
+
+      <div class="cart-item-subtotal">
+        <p>{{getSubtotal(item) | formatCurrency}}</p>
+      </div>
+      <div class="btn-delete">
+        <i class="material-icons" (click)="deleteItem(item.postId._id)"
+          [ngStyle]="{ 'color': 'red', 'cursor': 'pointer' }">delete</i>
+      </div>
+    </div>
+
+    <div class="footer-cart">
+      <div class="address-form">
+        <form [formGroup]="addressForm">
+          <div class="form-group">
+            <label for="houseNumber">House Number:</label>
+            <input formControlName="houseNumber" class="form-control" type="text" id="houseNumber"
+              placeholder="Enter your house number..">
+          </div>
+          <div class="form-group">
+            <label for="street">Street:</label>
+            <input formControlName="street" class="form-control" type="text" id="street"
+              placeholder="Enter your street..">
+          </div>
+          <div class="form-group">
+            <label for="city">City:</label>
+            <input formControlName="city" class="form-control" type="text" id="city" placeholder="Enter your city..">
+          </div>
+          <div class="form-group">
+            <label for="paymentMethod">Payment Method:</label>
+            <select formControlName="paymentMethod" id="paymentMethod" class="form-control">
+              <option value="Cash">Cash</option>
+              <option value="Credit Card">Credit Card</option>
+              <option value="Bank Transfer">Bank Transfer</option>
+            </select>
+          </div>
+        </form>
+      </div>
+
+      <div class="cart-summary">
+        <div class="cart-total">
+          <h3>Total: {{getTotal()|formatCurrency}} </h3>
+        </div>
+        <div class="btn-place-order">
+          <button (click)="placeOrder()" type="submit" [disabled]="addressForm.invalid || cartItems.length === 0"
+            class="btn btn-danger">Place Order</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #emptyCart>
+  <div class="text-center">
+    <ng-lottie class="lottie-animation" [options]="lottieOptions" width="400px" height="400px"
+      style="display: flex;align-items: center;justify-content: center;" autoplay="true" loop="true">
+    </ng-lottie>
+  </div>
+  <div class="text-center">
+    <button (click)="navigateHome()" class=" btn btn-danger">Tiếp tục mua hàng</button>
+  </div>
+</ng-template>
+
+
+<ng-template #loadingTemplate>
+  <div class="text-center">
+    <ng-lottie style="display: flex;align-items: center;justify-content: center;" class="lottie-animation"
+      [options]="lottieLoadingOptions" width="100px" height="100px" autoplay="true" loop="true"></ng-lottie>
+  </div>
+</ng-template>

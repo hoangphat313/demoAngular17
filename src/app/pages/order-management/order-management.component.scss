@@ -23,6 +23,7 @@
   white-space: nowrap;
   max-width: 200px;
 }
+
 .table td {
   vertical-align: middle;
 }
@@ -113,6 +114,7 @@ form:hover .fa{
   background: #212529;
   color: white;
 }
+
 //select
 select{
   width: 80%;
@@ -140,40 +142,3 @@ option{
 section:focus option {
   background-color: #c9ecef;
 }
-//menu dropdown
-.menu-wrapper{
-  position: relative;
-  display: inline-block;
-}
-.menu-wrapper:hover{
-  cursor: pointer;
-}
-.menu-wrapper:hover .dropdown-menu{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center ;
-}
-.menu-wrapper .icon-menu{
-  cursor: pointer;
-  font-size: 25px;
-  font-weight: bold;
-}
-.dropdown-menu{
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  z-index: 100;
-  min-width: max-content;
-  min-height: max-content;
-  bottom: 30%;
-  left: 100%;
-}
-.dropdown-menu .dropdown-item {
-  cursor: pointer;
-}
-.dropdown-menu .dropdown-item:hover{
-  background-color: #f1f1f1;
-}
-
-

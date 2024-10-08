@@ -5,10 +5,8 @@
 .dropdown-menu.show {
   display: block;
 }
-
 .navbar {
   height: 70px;
-
 }
 
 .navbar-nav {
@@ -32,12 +30,12 @@
 }
 
 .btn-navFav .ng-fa-icon {
-  font-size: 25px;
+  font-size: 22px;
 }
 
 .avatar {
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height:45px;
   border-radius: 50%;
   margin-right: 10px;
   object-fit: cover;
@@ -54,6 +52,7 @@
 }
 
 .img-logo {
+  cursor: pointer;
   height: auto;
   width: 80px;
   display: flex;

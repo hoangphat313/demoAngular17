@@ -17,6 +17,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { SafeHtmlPipe } from '../../pipes/safe-html.pipe';
+import { CurrencyFormatDirective } from '../../directives/currency-format.directive';
+import { FormatCurrencyPipe } from '../../pipes/format-currency.pipe';
 
 @Component({
   selector: 'app-post-management',
@@ -28,6 +30,8 @@ import { SafeHtmlPipe } from '../../pipes/safe-html.pipe';
     MatSlideToggleModule,
     CKEditorModule,
     SafeHtmlPipe,
+    CurrencyFormatDirective,
+    FormatCurrencyPipe,
   ],
   templateUrl: './post-management.component.html',
   styleUrl: './post-management.component.scss',
@@ -50,6 +54,7 @@ export class PostManagementComponent {
       content: ['', Validators.required],
       images: ['', Validators.required],
       author: ['', Validators.required],
+      price: ['', Validators.required],
     });
   }
   ngOnInit(): void {

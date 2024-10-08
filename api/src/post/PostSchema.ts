@@ -8,6 +8,7 @@ export interface IPost extends Document {
   createdAt?: Date;
   images: string[];
   featured: boolean;
+  price: Number;
 }
 const PostSchema = new mongoose.Schema<IPost>({
   title: {
@@ -32,6 +33,10 @@ const PostSchema = new mongoose.Schema<IPost>({
       type: String,
     },
   ],
+  price: {
+    type: Number,
+    required: true,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

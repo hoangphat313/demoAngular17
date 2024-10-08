@@ -16,6 +16,10 @@ import { FavouriteService } from '../../core/services/favourite.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons';
+import { FormatCurrencyPipe } from '../../pipes/format-currency.pipe';
+import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
+import { CartService } from '../../core/services/cart.service';
+import { AboutUsComponent } from "../about-us/about-us.component";
 
 @Component({
   selector: 'app-dashboard',
@@ -30,7 +34,9 @@ import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons';
     FeedbackComponent,
     BannerComponent,
     FontAwesomeModule,
-  ],
+    FormatCurrencyPipe,
+    AboutUsComponent
+],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
@@ -39,6 +45,7 @@ export class DashboardComponent implements OnInit {
   postService = inject(PostService);
   favouriteService = inject(FavouriteService);
   notificationService = inject(NotificationService);
+  cartService = inject(CartService);
   router = inject(Router);
   user!: User;
   posts: Post[] = [];
@@ -48,6 +55,8 @@ export class DashboardComponent implements OnInit {
   faHeart = faHeartRegular;
   faHeartFilled = faHeartSolid;
   favouritePostIds: Set<String> = new Set();
+  faCart = faCartShopping;
+  quantity: number = 1;
 
   images = [
     {
@@ -133,6 +142,27 @@ export class DashboardComponent implements OnInit {
   }
   ngOnDestroy() {
     this.searchSubscription.unsubscribe();
+  }
+  addToCart(postId: string) {
+    if (this.user._id) {
+      this.cartService
+        .addToCart(this.user._id, postId, this.quantity)
+        .subscribe(
+          (response) => {
+            if (response.cartData) {
+              this.notificationService.showNotification(response.message);
+
+            }
+          },
+          (error) => {
+            this.notificationService.showNotification(
+              'Error adding item to cart'
+            );
+          }
+        );
+    } else {
+      console.log('err');
+    }
   }
   loadPosts() {
     this.postService.getAllPosts().subscribe(

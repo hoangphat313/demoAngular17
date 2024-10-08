@@ -11,6 +11,7 @@ import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FavouriteService } from '../../core/services/favourite.service';
+import { CartService } from '../../core/services/cart.service';
 
 @Component({
   selector: 'app-layout',
@@ -24,6 +25,7 @@ export class LayoutComponent implements OnInit {
   postService = inject(PostService);
   favouriteService = inject(FavouriteService);
   notificationService = inject(NotificationService);
+  cartService = inject(CartService);
   isLoggedIn = this.authService.isLoggedIn();
   injector = inject(Injector);
   user: User | null = null;
@@ -33,6 +35,8 @@ export class LayoutComponent implements OnInit {
   fixedAdmin = fixedAdmin;
   faHeart = faHeartRegular;
   faCart = faCartShopping;
+  isDropdownOpen = false;
+  isSystemDropdownOpen = false;
 
   ngOnInit() {
     this.authService.currentUser$.subscribe((user) => {
@@ -61,9 +65,20 @@ export class LayoutComponent implements OnInit {
   toggleProfile() {
     this.router.navigate(['profile']);
   }
+  toggleMyOrders() {
+    this.router.navigate(['my-orders']);
+  }
   togglePostManagement() {
     if (this.user && this.user.isAdmin) {
       this.router.navigate(['post_management']);
+    } else
+      this.notificationService.showNotification(
+        'You are not authorized to access this page'
+      );
+  }
+  toggleOrderManagement() {
+    if (this.user && this.user.isAdmin) {
+      this.router.navigate(['order-management']);
     } else
       this.notificationService.showNotification(
         'You are not authorized to access this page'
@@ -88,10 +103,23 @@ export class LayoutComponent implements OnInit {
   toggleNavigateFav() {
     if (this.user) {
       this.router.navigate(['user_favourite']);
-      this.favouriteService.getAllFavourites(this.user._id);
+      // this.favouriteService.getAllFavourites(this.user._id);
+    }
+  }
+  toggleNavigateCart() {
+    if (this.user) {
+      this.router.navigate(['cart']);
     }
   }
   toggleNavHome() {
     this.router.navigate(['']);
+  }
+  toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
+    this.isSystemDropdownOpen = false; 
+  }
+
+  toggleSystemManagement() {
+    this.isSystemDropdownOpen = !this.isSystemDropdownOpen;
   }
 }

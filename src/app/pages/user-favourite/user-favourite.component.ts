@@ -16,6 +16,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons';
 import { LottieComponent } from 'ngx-lottie';
+import { FormatCurrencyPipe } from '../../pipes/format-currency.pipe';
 @Component({
   selector: 'app-user-favourite',
   standalone: true,
@@ -30,6 +31,7 @@ import { LottieComponent } from 'ngx-lottie';
     BannerComponent,
     FontAwesomeModule,
     LottieComponent,
+    FormatCurrencyPipe,
   ],
   templateUrl: './user-favourite.component.html',
   styleUrl: './user-favourite.component.scss',
@@ -48,10 +50,18 @@ export class UserFavouriteComponent {
   faHeartFilled = faHeartSolid;
   favouritePostIds: Set<String> = new Set();
   lottieOptions: any;
+  lottieLoadingOptions: any;
+  isLoading: boolean = true;
 
   constructor() {
     this.lottieOptions = {
       path: 'assets/not_found_animation.json',
+      renderer: 'svg',
+      autoplay: true,
+      loop: true,
+    };
+    this.lottieLoadingOptions = {
+      path: 'assets/loading.json',
       renderer: 'svg',
       autoplay: true,
       loop: true,
@@ -64,6 +74,7 @@ export class UserFavouriteComponent {
         if (this.user && this.user._id) {
           this.favouriteService.getAllFavourites(this.user._id).subscribe(
             (response) => {
+              this.isLoading = false;
               if (response.data) {
                 this.posts = response.data;
                 this.favouritePostIds = new Set(
@@ -72,6 +83,7 @@ export class UserFavouriteComponent {
               }
             },
             (error) => {
+              this.isLoading = false;
               this.notificationService.showNotification(
                 'Error fetching favorites'
               );
