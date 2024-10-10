@@ -12,7 +12,7 @@
             <p class="card-text text-muted">{{post.author}}</p>
             <p class="card-text text-muted"><Strong>Giá Bán:</Strong> {{post.price | formatCurrency}}</p>
             <a class="btn btn-outline-success btn-sm m-2" (click)="getPostById(post._id)">Xem Chi Tiết</a>
-            <button class="btn btn-outline-success btn-sm" (click)="toggleFavourite(post._id)">
+            <button class="btn btn-outline-danger btn-sm" (click)="toggleFavourite(post._id)">
               <fa-icon [icon]="favouritePostIds.has(post._id) ?faHeartFilled:faHeart">
               </fa-icon>
             </button>
@@ -32,6 +32,10 @@
     <ng-lottie class="lottie-animation" [options]="lottieOptions" width="500px" height="500px"
       style="display: flex;align-items: center;justify-content: center;" autoplay="true" loop="true">
     </ng-lottie>
+  </div>
+  <div class="text-center">
+    <p>Bạn chưa có sản phẩm yêu thích</p>
+    <button (click)="navigateHome()" class=" btn btn-danger">Tiếp tục mua hàng</button>
   </div>
 </ng-template>
 

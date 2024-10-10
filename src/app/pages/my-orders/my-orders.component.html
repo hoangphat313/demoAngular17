@@ -1,27 +1,46 @@
-<div class="container mt-4">
-  <h2 class="text-center">My Orders</h2>
-  <div class="row">
-    <div class="col-md-12">
-      <div class="list-group">
-        <div *ngFor="let order of orders  | paginate: {itemsPerPage: 4, currentPage: p }" class="list-group-item">
-          <div class="list-group-item-content">
-            <p class="mb-1"><strong>Address:</strong> {{ order.address.houseNumber }}, {{ order.address.street }}, {{
-              order.address.city }}
-            </p>
-            <p class="mb-1"><strong>Status:</strong> <span class="badge badge-info">{{ order.status }}</span></p>
-            <p class="mb-1"><strong>Date:</strong> {{ order.date }}</p>
-            <p class="mb-1"><strong>Payment Method:</strong> {{ order.paymentMethod }}</p>
-            <p class="mb-1"><strong>Total Amount: </strong>{{ order.amount |formatCurrency}}</p>
+<div class="container mt-4" *ngIf="!isLoading;else loadingTemplate">
+  <div *ngIf="orders.length>0;else emptyOrder">
+    <h2 class="text-center">Đơn Hàng Của Tôi</h2>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="list-group">
+          <div *ngFor="let order of orders  | paginate: {itemsPerPage: 4, currentPage: p }" class="list-group-item">
+            <div class="list-group-item-content">
+              <p class="mb-1"><strong>Địa Chỉ:</strong> {{ order.address.houseNumber }}, {{ order.address.street }}, {{
+                order.address.city }}
+              </p>
+              <p class="mb-1"><strong>Trạng Thái:</strong> <span class="badge badge-info">{{ order.status }}</span></p>
+              <p class="mb-1"><strong>Ngày Mua:</strong> {{ order.date }}</p>
+              <p class="mb-1"><strong>Phương thức thanh toán:</strong> {{ order.paymentMethod }}</p>
+              <p class="mb-1"><strong>Tổng Tiền: </strong>{{ order.amount |formatCurrency}}</p>
+            </div>
+            <div class="btn-edit">
+              <i class="material-icons" [ngStyle]="{ 'color':  'blue', 'cursor' : 'pointer' }">edit</i>
+            </div>
           </div>
-          <div class="btn-delete">
-            <i class="material-icons" [ngStyle]="{ 'color':  'red', 'cursor' : 'pointer' }">delete</i>
-          </div>
+
         </div>
 
       </div>
-
     </div>
+    <pagination-controls [responsive]="true" previousLabel="" nextLabel="" class="page-control"
+      (pageChange)="p = $event">
+    </pagination-controls>
   </div>
-  <pagination-controls [responsive]="true" previousLabel="" nextLabel="" class="page-control"
-    (pageChange)="p = $event"></pagination-controls>
 </div>
+<ng-template #loadingTemplate>
+  <div class="text-center">
+    <ng-lottie style="display: flex;align-items: center;justify-content: center;" class="lottie-animation"
+      [options]="lottieLoadingOptions" width="100px" height="100px" autoplay="true" loop="true"></ng-lottie>
+  </div>
+</ng-template>
+<ng-template #emptyOrder>
+  <div class="text-center">
+    <ng-lottie class="lottie-animation" [options]="lottieOptions" width="400px" height="400px"
+      style="display: flex;align-items: center;justify-content: center;" autoplay="true" loop="true">
+    </ng-lottie>
+  </div>
+  <div class="text-center">
+    <button (click)="navigateHome()" class=" btn btn-danger">Tiếp tục mua hàng</button>
+  </div>
+</ng-template>

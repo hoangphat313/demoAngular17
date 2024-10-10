@@ -75,6 +75,7 @@ export class LayoutComponent implements OnInit {
       this.notificationService.showNotification(
         'You are not authorized to access this page'
       );
+    this.closeDropdown();
   }
   toggleOrderManagement() {
     if (this.user && this.user.isAdmin) {
@@ -83,6 +84,7 @@ export class LayoutComponent implements OnInit {
       this.notificationService.showNotification(
         'You are not authorized to access this page'
       );
+    this.closeDropdown();
   }
   toggleFeedbackManagement() {
     if (this.user && this.user.isAdmin) {
@@ -91,6 +93,7 @@ export class LayoutComponent implements OnInit {
       this.notificationService.showNotification(
         'You are not authorized to access this page'
       );
+    this.closeDropdown();
   }
   toggleUserManagement() {
     if (this.user && this.user.isAdmin) {
@@ -99,11 +102,11 @@ export class LayoutComponent implements OnInit {
       this.notificationService.showNotification(
         'You are not authorized to access this page'
       );
+    this.closeDropdown();
   }
   toggleNavigateFav() {
     if (this.user) {
       this.router.navigate(['user_favourite']);
-      // this.favouriteService.getAllFavourites(this.user._id);
     }
   }
   toggleNavigateCart() {
@@ -116,10 +119,14 @@ export class LayoutComponent implements OnInit {
   }
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
-    this.isSystemDropdownOpen = false; 
+    this.isSystemDropdownOpen = false;
   }
 
   toggleSystemManagement() {
     this.isSystemDropdownOpen = !this.isSystemDropdownOpen;
+  }
+  closeDropdown() {
+    this.isSystemDropdownOpen = false;
+    this.isDropdownOpen = false;
   }
 }

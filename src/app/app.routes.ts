@@ -14,6 +14,7 @@ import { UserFavouriteComponent } from './pages/user-favourite/user-favourite.co
 import { CartComponent } from './pages/cart/cart.component';
 import { MyOrdersComponent } from './pages/my-orders/my-orders.component';
 import { OrderManagementComponent } from './pages/order-management/order-management.component';
+import { OrderSuccessfullyComponent } from './pages/order-successfully/order-successfully.component';
 
 export const routes: Routes = [
   {
@@ -76,6 +77,11 @@ export const routes: Routes = [
         path: 'order-management',
         canActivate: [authGuard],
         component: OrderManagementComponent,
+      },
+      {
+        path: 'order-successfully',
+        canActivate: [authGuard],
+        component: OrderSuccessfullyComponent,
       },
     ],
   },

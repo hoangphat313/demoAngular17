@@ -15,7 +15,7 @@
         <button class="btn btn-navFav" style="height: 20px; width: 20px" (click)="toggleNavigateFav()">
           <fa-icon [icon]="faHeart"></fa-icon>
         </button>
-        <button class="btn btn-navFav" style="height: 20px; width: 20px" (click)="toggleNavigateCart()">
+        <button class="btn btn-navFav cart-btn" style="height: 20px; width: 20px" (click)="toggleNavigateCart()">
           <fa-icon [icon]="faCart"></fa-icon>
         </button>
         <li class="nav-item dropdown">
@@ -27,11 +27,13 @@
           <div class="dropdown-menu" [ngClass]="{'show': isDropdownOpen}" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" style="cursor: pointer;" (click)="toggleProfile()">Thông tin cá nhân</a>
             <a class="dropdown-item" style="cursor: pointer;" (click)="toggleMyOrders()">Đơn hàng của tôi</a>
-            <!-- Quản trị hệ thống -->
+            <!-- Menu Quản trị hệ thống -->
         <li class="nav-item dropdown">
-          <a class="dropdown-item dropdown-toggle" href="javascript:void(0)" id="systemManagement" role="button"
-            (click)="toggleSystemManagement()" aria-haspopup="true" aria-expanded="false">Quản trị hệ thống</a>
-          <div class="dropdown-menu" [ngClass]="{'show': isSystemDropdownOpen}" aria-labelledby="systemManagement">
+          <a *ngIf="user?.isAdmin" class="dropdown-item dropdown-toggle" href="javascript:void(0)" id="systemManagement"
+            role="button" (click)="toggleSystemManagement()" aria-haspopup="true" aria-expanded="false">Quản trị hệ
+            thống</a>
+          <div class="dropdown-menu" id="systemManagementDropdown" [ngClass]="{'show': isSystemDropdownOpen}"
+            aria-labelledby="systemManagement">
             <a *ngIf="user?.isAdmin" class="dropdown-item" style="cursor: pointer;"
               (click)="togglePostManagement()">Quản lý bài viết</a>
             <a *ngIf="user?.isAdmin" class="dropdown-item" style="cursor: pointer;"
@@ -75,16 +77,16 @@
       </div>
     </div>
     <div class="footer-content-center">
-      <h3>COMPANY</h3>
+      <h3>CÔNG TY</h3>
       <ul>
-        <li>Home</li>
-        <li>About Us</li>
-        <li>Delivery</li>
-        <li>Privacy Policy</li>
+        <li>Trang Chủ</li>
+        <li>Về Chúng Tôi</li>
+        <li>Chính Sách Giao Hàng</li>
+        <li>Chích Sách</li>
       </ul>
     </div>
     <div class="footer-content-right">
-      <h3>GET IN TOUCH</h3>
+      <h3>LIÊN HỆ</h3>
       <ul>
         <li>Hotline: 0395704727</li>
         <li>Gmail: tbooksupport&#64;gmail.com</li>

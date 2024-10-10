@@ -72,23 +72,7 @@ export class UserFavouriteComponent {
       next: (response) => {
         this.user = response.data;
         if (this.user && this.user._id) {
-          this.favouriteService.getAllFavourites(this.user._id).subscribe(
-            (response) => {
-              this.isLoading = false;
-              if (response.data) {
-                this.posts = response.data;
-                this.favouritePostIds = new Set(
-                  this.posts.map((post: Post) => post._id)
-                );
-              }
-            },
-            (error) => {
-              this.isLoading = false;
-              this.notificationService.showNotification(
-                'Error fetching favorites'
-              );
-            }
-          );
+          this.loadUserFavourites();
         }
       },
       error: (error) => {
@@ -98,7 +82,28 @@ export class UserFavouriteComponent {
       },
     });
   }
-
+  navigateHome(): void {
+    if (this.user) {
+      this.router.navigate(['']);
+    }
+  }
+  loadUserFavourites() {
+    this.favouriteService.getAllFavourites(this.user._id).subscribe(
+      (response) => {
+        this.isLoading = false;
+        if (response.data) {
+          this.posts = response.data;
+          this.favouritePostIds = new Set(
+            this.posts.map((post: Post) => post._id)
+          );
+        }
+      },
+      (error) => {
+        this.isLoading = false;
+        this.notificationService.showNotification('Error fetching favorites');
+      }
+    );
+  }
   getPostById(id: string) {
     this.postService.getPostById(id).subscribe(
       (response) => {
@@ -121,6 +126,7 @@ export class UserFavouriteComponent {
         (response) => {
           if (response.message) {
             this.favouritePostIds.delete(postId);
+            this.loadUserFavourites();
             this.notificationService.showNotification(
               'Post removed from favourites'
             );

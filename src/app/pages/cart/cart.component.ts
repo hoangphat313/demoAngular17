@@ -182,7 +182,7 @@ export class CartComponent implements OnInit {
             (response) => {
               if (response.success) {
                 this.cartItems = [];
-                this.router.navigate(['']);
+                this.router.navigate(['order-successfully']);
               }
             },
             (error) => {

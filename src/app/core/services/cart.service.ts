@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NotificationService } from '../../shared/notifications/notification.service';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Post } from '../model/common.model';
 import { ApiEndpoint } from '../constant/constant';
 
@@ -28,6 +28,7 @@ export class CartService {
       quantity: quantity,
     });
   }
+
   getCartItems(
     userId: string
   ): Observable<{ success: boolean; cartData: Post[] }> {

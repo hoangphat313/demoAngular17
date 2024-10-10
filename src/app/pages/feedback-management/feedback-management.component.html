@@ -1,6 +1,6 @@
 <div class="container mt-5 px-2">
   <form action="" class="form ">
-    <input type="search" placeholder="Search for feedbacks..." [formControl]="searchControl" class="form-control" />
+    <input type="search" placeholder="Tìm kiếm phản hồi..." [formControl]="searchControl" class="form-control" />
     <i class="fa fa-search" aria-hidden="true"></i>
   </form>
   <div class="table-responsive">
@@ -9,7 +9,7 @@
         <tr>
           <th scope="col" width="15%">Họ Tên</th>
           <th scope="col" width="30%">Email</th>
-          <th scope="col" width="20%">Phản hồi</th>
+          <th scope="col" width="20%">Nội Dung</th>
           <th scope="col" class="text-center" width="15%">Trạng thái</th>
           <th scope="col" class="text-center" width="15%">Hành Động</th>
         </tr>
@@ -73,8 +73,8 @@
         <div class="modal-body">
           <p><strong>Họ Tên:</strong> {{selectedFeedback?.name}}</p>
           <p><strong>Email:</strong> {{selectedFeedback?.email}}</p>
-          <p><strong>Phản hồi:</strong> {{selectedFeedback?.message}}</p>
-          <p><strong>Trạng thái:</strong> {{selectedFeedback?.status}}</p>
+          <p><strong>Nội dung:</strong> {{selectedFeedback?.message}}</p>
+          <p><strong>Trạng Thái:</strong> {{selectedFeedback?.status}}</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>

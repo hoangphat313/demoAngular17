@@ -28,25 +28,26 @@
       <div class="address-form">
         <form [formGroup]="addressForm">
           <div class="form-group">
-            <label for="houseNumber">House Number:</label>
+            <label for="houseNumber">Số Nhà:</label>
             <input formControlName="houseNumber" class="form-control" type="text" id="houseNumber"
-              placeholder="Enter your house number..">
+              placeholder="Nhập số nhà của bạn..">
           </div>
           <div class="form-group">
-            <label for="street">Street:</label>
+            <label for="street">Đường:</label>
             <input formControlName="street" class="form-control" type="text" id="street"
-              placeholder="Enter your street..">
+              placeholder="Nhập địa chỉ đường..">
           </div>
           <div class="form-group">
-            <label for="city">City:</label>
-            <input formControlName="city" class="form-control" type="text" id="city" placeholder="Enter your city..">
+            <label for="city">Thành Phố:</label>
+            <input formControlName="city" class="form-control" type="text" id="city"
+              placeholder="Nhập tên thành phố của bạn..">
           </div>
           <div class="form-group">
-            <label for="paymentMethod">Payment Method:</label>
+            <label for="paymentMethod">Phương Thức Thanh Toán:</label>
             <select formControlName="paymentMethod" id="paymentMethod" class="form-control">
-              <option value="Cash">Cash</option>
-              <option value="Credit Card">Credit Card</option>
-              <option value="Bank Transfer">Bank Transfer</option>
+              <option value="Cash">Tiền mặt</option>
+              <option value="Credit Card">Thẻ tín dụng</option>
+              <option value="Bank Transfer">Chuyển khoản</option>
             </select>
           </div>
         </form>
@@ -58,7 +59,7 @@
         </div>
         <div class="btn-place-order">
           <button (click)="placeOrder()" type="submit" [disabled]="addressForm.invalid || cartItems.length === 0"
-            class="btn btn-danger">Place Order</button>
+            class="btn btn-danger">Đặt Hàng</button>
         </div>
       </div>
     </div>
@@ -72,6 +73,7 @@
     </ng-lottie>
   </div>
   <div class="text-center">
+    <p>Giỏ hàng của bạn đang rỗng</p>
     <button (click)="navigateHome()" class=" btn btn-danger">Tiếp tục mua hàng</button>
   </div>
 </ng-template>

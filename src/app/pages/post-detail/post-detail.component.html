@@ -1,15 +1,29 @@
-<div *ngIf="post" class="post-container">
-  <h1 class="post-title">{{post.title}}</h1>
-  <p class="post-author"><strong>Tác giả:</strong> {{post.author}}</p>
-  <div class="image-container">
-    <div *ngFor="let image of post.images">
-      <img [src]="image" alt="image of {{post.title}}" class="post-image">
+<div class="post-detail-container">
+  <div class="post-detail">
+    <div class="left-content">
+      <div *ngFor="let image of post?.images">
+        <img [src]="image" alt="image of {{ post?.title }}" class="post-image">
+      </div>
+    </div>
+    <div class="right-content">
+      <h4 class="post-title">{{ post?.title }}</h4>
+      <p class="post-author"><strong>Tác giả:</strong> {{ post?.author }}</p>
+      <p class="post-price"><strong>Giá Bán:</strong> {{ post!.price | formatCurrency }}</p>
+      <div class="post-detail-btn">
+        <button class="btn-add-cart" (click)="addToCart(postId)">Thêm vào giỏ</button>
+        <button class="btn-add-favourite " (click)="toggleFavourite(postId)">
+          <fa-icon [icon]="favouritePostIds.has(postId) ?faHeartFilled:faHeart">
+          </fa-icon>
+        </button>
+      </div>
     </div>
   </div>
-  <div class="post-content">
+  <div class="post-content" [ngClass]="{ 'expanded': expanded }">
+    <span>Nội dung bài viết:</span>
     <p *ngFor="let paragraph of formattedContent" [innerHtml]="paragraph"></p>
   </div>
 </div>
+
 <div *ngIf="!post" class="not-found">
   <p>Post not found</p>
 </div>
