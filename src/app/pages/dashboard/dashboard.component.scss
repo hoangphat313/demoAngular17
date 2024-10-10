@@ -140,3 +140,10 @@ form:hover .fa {
   background: #212529;
   color: white;
 }
+.map-container {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  gap: 20px;
+}
