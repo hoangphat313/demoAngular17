@@ -99,12 +99,14 @@ td.ellipsis{
   z-index: 10;
   background-color: white;
 }
-
-@media (max-width: 995px) {
-  .table-responsive::-webkit-scrollbar {
-    display: none;
-  }
+.avatar-preview img{
+  max-width: 150px;
+  height: auto;
+  margin: 10px auto;
+  border-radius: 10px;
 }
+
+
 
 //search
 .search-form{
@@ -217,4 +219,14 @@ td.ellipsis{
 .dropdown-menu .dropdown-item:hover{
   background-color: #f1f1f1;
 }
-
+.image-preview-container img{
+  max-width: 120px;
+  height: auto;
+  margin: 10px 5px;
+  border-radius: 10px;
+}
+@media (max-width: 995px) {
+  .table-responsive::-webkit-scrollbar {
+    display: none;
+  }
+}

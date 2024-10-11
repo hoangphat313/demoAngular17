@@ -19,7 +19,8 @@ import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons';
 import { FormatCurrencyPipe } from '../../pipes/format-currency.pipe';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import { CartService } from '../../core/services/cart.service';
-import { AboutUsComponent } from "../about-us/about-us.component";
+import { AboutUsComponent } from '../about-us/about-us.component';
+import { LottieComponent } from 'ngx-lottie';
 
 @Component({
   selector: 'app-dashboard',
@@ -35,8 +36,9 @@ import { AboutUsComponent } from "../about-us/about-us.component";
     BannerComponent,
     FontAwesomeModule,
     FormatCurrencyPipe,
-    AboutUsComponent
-],
+    AboutUsComponent,
+    LottieComponent,
+  ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
@@ -57,6 +59,8 @@ export class DashboardComponent implements OnInit {
   favouritePostIds: Set<String> = new Set();
   faCart = faCartShopping;
   quantity: number = 1;
+  lottieLoadingOptions: any;
+  isLoading: boolean = true;
 
   images = [
     {
@@ -81,10 +85,16 @@ export class DashboardComponent implements OnInit {
       imageAlt: 'banner_5',
     },
   ];
-
+  constructor() {
+    this.lottieLoadingOptions = {
+      path: 'assets/loading.json',
+      renderer: 'svg',
+      autoplay: true,
+      loop: true,
+    };
+  }
   ngOnInit(): void {
     this.loadPosts();
-
     this.authService.userDetails().subscribe({
       next: (response) => {
         this.user = response.data;
@@ -137,7 +147,11 @@ export class DashboardComponent implements OnInit {
             this.notificationService.showNotification('No posts found');
           }
         },
-        (error) => console.log(error)
+        (error) => {
+          this.notificationService.showNotification(
+            'Error searching for posts'
+          );
+        }
       );
   }
   ngOnDestroy() {
@@ -151,7 +165,6 @@ export class DashboardComponent implements OnInit {
           (response) => {
             if (response.cartData) {
               this.notificationService.showNotification(response.message);
-
             }
           },
           (error) => {
@@ -161,17 +174,24 @@ export class DashboardComponent implements OnInit {
           }
         );
     } else {
-      console.log('err');
+      this.notificationService.showNotification(
+        'Please login to add items to cart'
+      );
     }
   }
   loadPosts() {
+    this.isLoading = true;
     this.postService.getAllPosts().subscribe(
       (response) => {
+        this.isLoading = false;
         this.posts = response.data.filter(
           (post: any) => post.featured === true
         );
       },
-      (error) => console.log(error)
+      (error) => {
+        this.isLoading = false;
+        this.notificationService.showNotification('Error fetching posts');
+      }
     );
   }
   getPostById(id: string) {
@@ -181,7 +201,9 @@ export class DashboardComponent implements OnInit {
           this.router.navigate(['/post_detail', response.data._id]);
         }
       },
-      (error) => console.log(error)
+      (error) => {
+        this.notificationService.showNotification('Error fetching post');
+      }
     );
   }
   toggleFavourite(postId: string) {

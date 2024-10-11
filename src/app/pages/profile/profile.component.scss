@@ -103,3 +103,9 @@ input:focus{
 label{
   text-align: left;
 }
+.avatar-preview img{
+  max-width: 150px;
+  height: auto;
+  margin: 10px auto;
+  border-radius: 10px;
+}

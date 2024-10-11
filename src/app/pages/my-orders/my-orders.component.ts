@@ -63,12 +63,10 @@ export class MyOrdersComponent implements OnInit {
           this.isLoading = false;
           if (response.success) {
             this.orders = response.data;
-            console.log(this.orders);
           }
         },
         (error) => {
           this.isLoading = false;
-          console.log(error);
         }
       );
     }

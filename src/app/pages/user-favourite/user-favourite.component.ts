@@ -111,7 +111,9 @@ export class UserFavouriteComponent {
           this.router.navigate(['/post_detail', response.data._id]);
         }
       },
-      (error) => console.log(error)
+      (error) => {
+        this.notificationService.showNotification('Error fetching post');
+      }
     );
   }
   toggleFavourite(postId: string) {

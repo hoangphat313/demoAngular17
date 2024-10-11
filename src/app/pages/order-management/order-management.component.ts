@@ -63,7 +63,7 @@ export class OrderManagementComponent implements OnInit {
           }
         },
         (error) => {
-          console.log(error);
+          this.notificationService.showNotification(error.message);
         }
       );
   }
@@ -104,7 +104,7 @@ export class OrderManagementComponent implements OnInit {
           }
         },
         (error) => {
-          console.log(error);
+          this.notificationService.showNotification(error.message);
         }
       );
     }

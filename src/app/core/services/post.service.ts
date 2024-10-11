@@ -23,7 +23,7 @@ export class PostService {
       `${ApiEndpoint.Post.GetPostById}?id=${id}`
     );
   }
-  addPost(post: Post): Observable<{ success: boolean; data: Post }> {
+  addPost(post: any): Observable<{ success: boolean; data: Post }> {
     return this._http.post<{ success: boolean; data: Post }>(
       `${ApiEndpoint.Post.CreatePost}`,
       post

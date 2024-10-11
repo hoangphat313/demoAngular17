@@ -54,7 +54,7 @@ export class UserManagementComponent implements OnInit {
           }
         },
         (error) => {
-          console.log(error);
+          this.notificationService.showNotification(error)
         }
       );
   }
@@ -67,7 +67,7 @@ export class UserManagementComponent implements OnInit {
         this.users = response.data;
       },
       (error) => {
-        console.log(error);
+        this.notificationService.showNotification(error);
       }
     );
   }
@@ -101,7 +101,7 @@ export class UserManagementComponent implements OnInit {
           }
         },
         (error) => {
-          console.log(error);
+          this.notificationService.showNotification(error);
         }
       );
     }
@@ -120,7 +120,7 @@ export class UserManagementComponent implements OnInit {
         this.loadUsers();
       },
       (error) => {
-        console.log(error);
+       this.notificationService.showNotification('Error updating')
       }
     );
   }

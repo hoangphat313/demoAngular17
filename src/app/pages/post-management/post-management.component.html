@@ -45,7 +45,8 @@
           <td>
             <div class="text-center">
               <div class="menu-wrapper">
-                <i class="material-icons icon-menu">menu</i>
+                <fa-icon style="font-size: 22px; color: #888282;display: flex;align-items: center;"
+                  [icon]="faBars"></fa-icon>
                 <div class="dropdown-menu">
                   <i class="material-icons dropdown-item " (click)="editPost(post)">edit</i>
                   <i class="material-icons dropdown-item" (click)="openDeletePost(post)">delete</i>
@@ -73,10 +74,10 @@
                 <label for="title">Tựa đề</label>
                 <input id="title" formControlName="title" class="form-control" />
               </div>
+              <ckeditor></ckeditor>
               <div class="mb-3">
                 <label for="content">Nội dung</label>
                 <ckeditor [editor]="Editor" id="content" class="form-control" formControlName="content"></ckeditor>
-
               </div>
               <div class="mb-3">
                 <label for="author">Tác giả</label>
@@ -84,7 +85,14 @@
               </div>
               <div class="mb-3">
                 <label for="images">Hình ảnh</label>
-                <input id="images" formControlName="images" class="form-control" />
+                <input id="images" type="file" (change)="handleFileInput($event)" multiple accept="image/*"
+                  class="form-control" />
+                <div *ngIf="avatarPreview.length>0">
+                  <div class="image-preview-container">
+                    <img *ngFor="let image of avatarPreview " [src]="image" alt="">
+                  </div>
+
+                </div>
               </div>
               <div class="mb-3">
                 <label for="price">Giá Bán (VND)</label>

@@ -77,13 +77,11 @@ export class CartComponent implements OnInit {
         (response) => {
           this.isLoading = false;
           if (response.success) {
-            console.log(response.cartData);
             this.cartItems = response.cartData;
           }
         },
         (error) => {
           this.isLoading = false;
-          console.log(error);
         }
       );
     }

@@ -51,7 +51,9 @@ export class LayoutComponent implements OnInit {
               this.user = response.data;
             },
             (error) => {
-              console.log(error);
+              this.notificationService.showNotification(
+                'Error fetching user details'
+              );
             }
           );
         }

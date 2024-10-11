@@ -11,10 +11,16 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons';
 import { CartService } from '../../core/services/cart.service';
+import { LottieComponent } from 'ngx-lottie';
 @Component({
   selector: 'app-post-detail',
   standalone: true,
-  imports: [CommonModule, FormatCurrencyPipe, FontAwesomeModule],
+  imports: [
+    CommonModule,
+    FormatCurrencyPipe,
+    FontAwesomeModule,
+    LottieComponent,
+  ],
   templateUrl: './post-detail.component.html',
   styleUrl: './post-detail.component.scss',
 })
@@ -32,14 +38,23 @@ export class PostDetailComponent implements OnInit {
   faHeartFilled = faHeartSolid;
   cartService = inject(CartService);
   quantity: number = 1;
-  constructor(
-    private route: ActivatedRoute,
-    private postService: PostService
-  ) {}
+  selectedImage: string | null = null;
+  isLoading: boolean = true;
+  lottieLoadingOptions: any;
+  constructor(private route: ActivatedRoute, private postService: PostService) {
+    this.lottieLoadingOptions = {
+      path: 'assets/loading.json',
+      renderer: 'svg',
+      autoplay: true,
+      loop: true,
+    };
+  }
   ngOnInit() {
+    this.isLoading = true;
     this.postId = this.route.snapshot.paramMap.get('id') ?? '';
     this.postService.getPostById(this.postId).subscribe(
       (response) => {
+        this.isLoading = false;
         if (response.success && response.data) {
           this.post = response.data;
           if (this.post && this.post.content) {
@@ -47,9 +62,15 @@ export class PostDetailComponent implements OnInit {
               .split('\n')
               .map((paragraph) => paragraph.trim());
           }
+        } else {
+          this.isLoading = false;
+          this.notificationService.showNotification('Post not found');
         }
       },
-      (error) => console.log(error)
+      (error) => {
+        this.isLoading = false;
+        this.notificationService.showNotification('Error fetching post');
+      }
     );
     this.authService.userDetails().subscribe({
       next: (response) => {
@@ -80,6 +101,9 @@ export class PostDetailComponent implements OnInit {
   }
   toggleContent() {
     this.expanded = !this.expanded;
+  }
+  selectImage(image: string) {
+    this.selectedImage = image;
   }
   toggleFavourite(postId: string) {
     if (!this.user || !this.user._id) {
@@ -147,7 +171,9 @@ export class PostDetailComponent implements OnInit {
           }
         );
     } else {
-      console.log('err');
+      this.notificationService.showNotification(
+        'Please login to add to cart'
+      );
     }
   }
 }

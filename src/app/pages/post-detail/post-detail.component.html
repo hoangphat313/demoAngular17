@@ -1,8 +1,13 @@
-<div class="post-detail-container">
+<div class="post-detail-container" *ngIf="!isLoading ;else loadingTemplate">
   <div class="post-detail">
     <div class="left-content">
-      <div *ngFor="let image of post?.images">
-        <img [src]="image" alt="image of {{ post?.title }}" class="post-image">
+      <div class="main-image">
+        <img [src]="selectedImage  || post!.images[0]" alt="image of {{ post?.title }}">
+      </div>
+      <div class="thumbnail-slider">
+        <div class="thumbnail" *ngFor="let image of post?.images">
+          <img [src]="image" (click)="selectImage(image)" alt="thumbnail">
+        </div>
       </div>
     </div>
     <div class="right-content">
@@ -27,3 +32,9 @@
 <div *ngIf="!post" class="not-found">
   <p>Post not found</p>
 </div>
+<ng-template #loadingTemplate>
+  <div class="text-center">
+    <ng-lottie style="display: flex;align-items: center;justify-content: center;" class="lottie-animation"
+      [options]="lottieLoadingOptions" width="100px" height="100px" autoplay="true" loop="true"></ng-lottie>
+  </div>
+</ng-template>

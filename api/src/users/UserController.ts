@@ -153,7 +153,7 @@ const updateUserDetail = async (
       data: updateUser,
     });
   } catch (error) {
-    console.log(error);
+    return res.status(500).json('Server error: ' + error);
   }
 };
 const updateIsAdmin = async (

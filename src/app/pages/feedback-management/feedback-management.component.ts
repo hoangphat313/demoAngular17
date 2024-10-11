@@ -9,7 +9,8 @@ import { debounceTime, Subscription, switchMap } from 'rxjs';
 import * as bootstrap from 'bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { IconService } from '../../core/services/icon.service';
-
+import { faBarsProgress } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 @Component({
   selector: 'app-feedback-management',
   standalone: true,
@@ -19,6 +20,7 @@ import { IconService } from '../../core/services/icon.service';
     ReactiveFormsModule,
     HttpClientModule,
     FormsModule,
+    FontAwesomeModule,
   ],
   templateUrl: './feedback-management.component.html',
   styleUrl: './feedback-management.component.scss',
@@ -32,7 +34,7 @@ export class FeedbackManagementComponent implements OnInit {
   feedbackService = inject(FeedbackService);
   notificationService = inject(NotificationService);
   iconService = inject(IconService);
-
+  faBars = faBarsProgress;
   ngOnInit(): void {
     this.loadFeedbacks();
     this.searchSubscription = this.searchControl.valueChanges
@@ -89,7 +91,7 @@ export class FeedbackManagementComponent implements OnInit {
           this.selectedFeedback = null;
         },
         (error) => {
-          console.log(error);
+          this.notificationService.showNotification(error);
         }
       );
     }
@@ -114,7 +116,7 @@ export class FeedbackManagementComponent implements OnInit {
           }
         },
         (error) => {
-          console.log('Error updating feedback status:', error);
+         this.notificationService.showNotification('Failed to update feedback status')
         }
       );
   }

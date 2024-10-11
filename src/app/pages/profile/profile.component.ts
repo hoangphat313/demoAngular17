@@ -23,6 +23,7 @@ export class ProfileComponent implements OnInit {
   user: User | null = null;
   updateForm!: FormGroup;
   notificationService = inject(NotificationService);
+  avatarPreview: string | null = null;
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
@@ -32,7 +33,6 @@ export class ProfileComponent implements OnInit {
       name: ['', Validators.required],
       email: ['', Validators.required],
       phoneNumber: ['', Validators.required],
-      avatarUrl: ['', Validators.required],
     });
   }
   ngOnInit(): void {
@@ -49,13 +49,14 @@ export class ProfileComponent implements OnInit {
             phoneNumber: response.data.phoneNumber,
             avatarUrl: response.data.avatarUrl,
           });
+          this.avatarPreview = response.data.avatarUrl;
           this.loadUserFavourite();
         } else {
-          console.log('User data is undefined');
+         this.notificationService.showNotification('User data is undefined');
         }
       },
       (error) => {
-        console.log(error);
+       this.notificationService.showNotification('User data is undefined');
       }
     );
   }
@@ -64,16 +65,14 @@ export class ProfileComponent implements OnInit {
       this.favouriteService.getAllFavourites(this.user._id).subscribe(
         (response) => {
           if (response.data) {
-            console.log(response.data);
           }
         },
         (error) => {
-          console.log('Error fetching favourites:', error);
+         this.notificationService.showNotification('Error fetching favourites');
         }
       );
     }
   }
-
   openEditForm(): void {
     const modalEl = document.getElementById('editUserModal');
     if (modalEl) {
@@ -81,9 +80,33 @@ export class ProfileComponent implements OnInit {
       modal.show();
     }
   }
+  getBase64 = (file: File): Promise<string> =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+    });
+  async handleFileInput(event: Event): Promise<void> {
+    const target = event.target as HTMLInputElement;
+    if (target.files && target.files.length > 0) {
+      const file = target.files[0];
+      this.avatarPreview = await this.getBase64(file);
+      const maxSize = 10 * 1024 * 1024;
+      if (file.size > maxSize) {
+        this.notificationService.showNotification(
+          'Kích thước hình ảnh quá lớn. Vui lòng chọn hình ảnh nhỏ hơn 10MB.'
+        );
+        return;
+      }
+    }
+  }
   updateUserDetail(): void {
     if (this.updateForm.valid && this.user) {
-      const updateData = this.updateForm.value;
+      const updateData = {
+        ...this.updateForm.value,
+        avatarUrl: this.avatarPreview,
+      };
       this.authService.updateUserDetail(this.user._id, updateData).subscribe({
         next: (response) => {
           if (response.data) {
@@ -104,7 +127,7 @@ export class ProfileComponent implements OnInit {
           }
         },
         error: (error) => {
-          console.log(error);
+          this.notificationService.showNotification('Failed to update user')
         },
       });
     }

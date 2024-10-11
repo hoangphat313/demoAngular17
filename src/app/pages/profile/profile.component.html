@@ -33,8 +33,11 @@
               <input id="phoneNumber" formControlName="phoneNumber" />
             </div>
             <div class="mb-3">
-              <label for="avatarUrl">URL Avatar</label>
-              <input id="avatarUrl" formControlName="avatarUrl" />
+              <label for="avatarUrl">Avatar</label>
+              <input id="avatarUrl" type="file" (change)="handleFileInput($event)" accept="image/*" />
+              <div *ngIf="avatarPreview" class="avatar-preview">
+                <img [src]="avatarPreview" alt="Avatar Preview" />
+              </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>

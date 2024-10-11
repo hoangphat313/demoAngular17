@@ -10,7 +10,7 @@
                 order.address.city }}
               </p>
               <p class="mb-1"><strong>Trạng Thái:</strong> <span class="badge badge-info">{{ order.status }}</span></p>
-              <p class="mb-1"><strong>Ngày Mua:</strong> {{ order.date }}</p>
+              <p class="mb-1"><strong>Ngày Mua:</strong> {{ order.date| date: 'dd/MM/yyyy' }}</p>
               <p class="mb-1"><strong>Phương thức thanh toán:</strong> {{ order.paymentMethod }}</p>
               <p class="mb-1"><strong>Tổng Tiền: </strong>{{ order.amount |formatCurrency}}</p>
             </div>

@@ -29,5 +29,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([httpInterceptor])),
     provideAnimationsAsync(),
     [importProvidersFrom(HammerModule)],
+
   ],
 };

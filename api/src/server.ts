@@ -8,8 +8,9 @@ import FeedbackRoute from './feedback/FeedbackRoute';
 import CartRoute from './cart/CartRoute';
 import OrderRouter from './order/OrderRoute';
 const app = express();
-app.use(express.json());
+
 app.use(cors());
+app.use(express.json({limit:'10mb'}))
 db();
 
 app.use('/api/users', UserRoute);
