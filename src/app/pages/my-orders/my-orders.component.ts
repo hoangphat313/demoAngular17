@@ -11,7 +11,8 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import * as bootstrap from 'bootstrap';
 import { NotificationService } from '../../shared/notifications/notification.service';
-
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faPencil } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-my-orders',
   standalone: true,
@@ -22,6 +23,7 @@ import { NotificationService } from '../../shared/notifications/notification.ser
     MatSlideToggleModule,
     LottieComponent,
     ReactiveFormsModule,
+    FontAwesomeModule,
   ],
   templateUrl: './my-orders.component.html',
   styleUrl: './my-orders.component.scss',
@@ -39,6 +41,7 @@ export class MyOrdersComponent implements OnInit {
   router = inject(Router);
   updateForm!: FormGroup;
   selectOrderId: string | null = null;
+  faPencil = faPencil;
 
   constructor(private fb: FormBuilder) {
     this.lottieLoadingOptions = {

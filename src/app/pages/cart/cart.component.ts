@@ -14,7 +14,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { OrderService } from '../../core/services/order.service';
-
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-cart',
   standalone: true,
@@ -23,6 +24,7 @@ import { OrderService } from '../../core/services/order.service';
     FormatCurrencyPipe,
     LottieComponent,
     ReactiveFormsModule,
+    FontAwesomeModule,
   ],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss',
@@ -39,6 +41,7 @@ export class CartComponent implements OnInit {
   lottieLoadingOptions: any;
   addressForm!: FormGroup;
   isLoading: boolean = true;
+  faTrashCan = faTrashCan;
 
   constructor(private fb: FormBuilder) {
     this.lottieOptions = {

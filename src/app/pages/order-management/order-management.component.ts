@@ -10,7 +10,8 @@ import { debounceTime, Subscription, switchMap } from 'rxjs';
 import { NotificationService } from '../../shared/notifications/notification.service';
 import { FormatCurrencyPipe } from '../../pipes/format-currency.pipe';
 import * as bootstrap from 'bootstrap';
-
+import {faEyeSlash} from '@fortawesome/free-regular-svg-icons'
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 @Component({
   selector: 'app-order-management',
   standalone: true,
@@ -21,6 +22,7 @@ import * as bootstrap from 'bootstrap';
     ReactiveFormsModule,
     FormatCurrencyPipe,
     FormsModule,
+    FontAwesomeModule,
   ],
   templateUrl: './order-management.component.html',
   styleUrl: './order-management.component.scss',
@@ -35,6 +37,7 @@ export class OrderManagementComponent implements OnInit {
   searchControl = new FormControl();
   private searchSubscription = new Subscription();
   selectedOrder: IOrder | null = null;
+  faEyeSlash = faEyeSlash
   constructor() {}
   ngOnInit(): void {
     this.authService.userDetails().subscribe((response) => {
@@ -56,10 +59,12 @@ export class OrderManagementComponent implements OnInit {
       .subscribe(
         (response) => {
           if (response && response.data.length > 0) {
-            this.orders = response.data;
+            this.orders = response.data.filter(
+              (order: any) => !order.isDeleted
+            );
           } else {
             this.orders = [];
-            this.notificationService.showNotification('No users found');
+            this.notificationService.showNotification('No orders found');
           }
         },
         (error) => {
@@ -70,7 +75,7 @@ export class OrderManagementComponent implements OnInit {
   loadAllOrder(): void {
     this.orderService.getAllOrderForAdmin().subscribe((response) => {
       if (response.success) {
-        this.orders = response.data;
+        this.orders = response.data.filter((order: any) => !order.isDeleted);
       }
     });
   }
@@ -82,9 +87,9 @@ export class OrderManagementComponent implements OnInit {
       modal.show();
     }
   }
-  onDelete(): void {
+  onHide(): void {
     if (this.selectedOrder) {
-      this.orderService.deleteOrder(this.selectedOrder._id).subscribe(
+      this.orderService.hideOrder(this.selectedOrder._id).subscribe(
         (response) => {
           if (response.success) {
             this.orders = this.orders.filter(

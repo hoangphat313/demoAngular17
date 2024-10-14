@@ -31,8 +31,10 @@
                 <fa-icon style="font-size: 22px; color: #888282;display: flex;align-items: center;"
                   [icon]="faBars"></fa-icon>
                 <div class="dropdown-menu">
-                  <i class="material-icons dropdown-item" (click)="onDetailFeedback(feedback)">remove_red_eye</i>
-                  <i class="material-icons dropdown-item " (click)="openDeleteForm(feedback)">delete</i>
+                  <fa-icon class="dropdown-item" [title]="'Chi tiết phản hồi'" [icon]="faEye"
+                    (click)="onDetailFeedback(feedback)"></fa-icon>
+                  <fa-icon class="dropdown-item" [title]="'Xóa phản hồi'" style="color: red;" [icon]="faTrashCan"
+                    (click)="openDeleteForm(feedback)"></fa-icon>
                 </div>
               </div>
             </div>

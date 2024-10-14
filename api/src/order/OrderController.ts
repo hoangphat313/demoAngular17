@@ -109,15 +109,21 @@ const updateStatusOrder = async (
   }
 };
 
-const deleteOrder = async (req: Request, res: Response, next: NextFunction) => {
+const hideOrder = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const order = await Order.findByIdAndDelete(req.query.orderId);
+    const orderId = req.query.orderId;
+    const order = await Order.findByIdAndUpdate(
+      orderId,
+      { isDeleted: true },
+      { new: true }
+    );
     if (!order) {
       return res.status(404).json({ message: 'Order not found' });
     }
     const response = {
       success: true,
-      message: 'Order deleted successfully',
+      message: 'Order masked as deleted',
+      data: order,
     };
     return res.status(200).json(response);
   } catch (error) {
@@ -139,7 +145,7 @@ const searchOrder = async (req: Request, res: Response, next: NextFunction) => {
         { 'address.houseNumber': { $regex: searchTerm, $options: 'i' } },
         { 'address.city': { $regex: searchTerm, $options: 'i' } },
         { 'address.street': { $regex: searchTerm, $options: 'i' } },
-      ],  
+      ],
     });
     return res.status(200).json({ success: true, data: filterOrder });
   } catch (error) {
@@ -152,6 +158,6 @@ export {
   updateStatusOrder,
   getAllOrdersForAdmin,
   updateDetailOrder,
-  deleteOrder,
+  hideOrder,
   searchOrder,
 };

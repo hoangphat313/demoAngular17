@@ -15,12 +15,12 @@
               <p class="mb-1"><strong>Tổng Tiền: </strong>{{ order.amount |formatCurrency}}</p>
             </div>
             <div class="btn-edit">
-              <i class="material-icons" [ngStyle]="{
-                  'color': order.status === 'Đang chờ xử lý' ? 'blue' : 'gray',
-                  'cursor': order.status === 'Đang chờ xử lý' ? 'pointer' : 'not-allowed'
-                }" (click)="order.status === 'Đang chờ xử lý' ? openEditAddress(order) : $event.stopPropagation()">
-                edit
-              </i>
+              <fa-icon [title]="'Chỉnh sửa đơn hàng'" [icon]="faPencil" [ngStyle]="{
+                'color': order.status === 'Đang chờ xử lý' ? 'blue' : 'gray',
+                'cursor': order.status === 'Đang chờ xử lý' ? 'pointer' : 'not-allowed'
+              }"
+                (click)="order.status === 'Đang chờ xử lý' ? openEditAddress(order) : $event.stopPropagation()"></fa-icon>
+
             </div>
           </div>
         </div>
@@ -44,6 +44,7 @@
     </ng-lottie>
   </div>
   <div class="text-center">
+    <p>Bạn chưa có đơn hàng nào</p>
     <button (click)="navigateHome()" class=" btn btn-danger">Tiếp tục mua hàng</button>
   </div>
 </ng-template>

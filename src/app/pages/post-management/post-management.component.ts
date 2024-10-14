@@ -19,10 +19,14 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SafeHtmlPipe } from '../../pipes/safe-html.pipe';
 import { CurrencyFormatDirective } from '../../directives/currency-format.directive';
 import { FormatCurrencyPipe } from '../../pipes/format-currency.pipe';
-
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { LottieComponent } from 'ngx-lottie';
+import {
+  faPencil,
+  faTrashCan,
+  faPlus,
+} from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-post-management',
   imports: [
@@ -36,13 +40,14 @@ import { LottieComponent } from 'ngx-lottie';
     NgxPaginationModule,
     CKEditorModule,
     LottieComponent,
+    FontAwesomeModule,
   ],
   standalone: true,
 
   templateUrl: './post-management.component.html',
   styleUrl: './post-management.component.scss',
 })
-export class PostManagementComponent implements OnInit  {
+export class PostManagementComponent implements OnInit {
   postService = inject(PostService);
   posts: Post[] = [];
   fb = inject(FormBuilder);
@@ -54,9 +59,12 @@ export class PostManagementComponent implements OnInit  {
   private searchSubscription = new Subscription();
   avatarPreview: string[] = [];
   faBars = faBarsProgress;
-  public Editor:any =  ClassicEditor;
+  public Editor: any = ClassicEditor.default;
   lottieLoadingOptions: any;
   isLoading: boolean = true;
+  faPencil = faPencil;
+  faTrashCan = faTrashCan;
+  faPlus = faPlus;
 
   constructor(private notificationService: NotificationService) {
     this.postForm = this.fb.group({
@@ -253,7 +261,6 @@ export class PostManagementComponent implements OnInit  {
     this.postService.updateFeaturedPost(postId, newFeatured).subscribe(
       (response) => {
         this.notificationService.showNotification('Featured post updated');
-        this.loadPosts();
       },
       (error) => {
         this.notificationService.showNotification(

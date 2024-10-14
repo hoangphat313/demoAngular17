@@ -1,6 +1,6 @@
 <div class="chat-bubble" (click)="toggleOpenForm()">
   <div class="chat-icon">
-    <i class="material-icons icon-feedback">feedback</i>
+    <fa-icon [icon]="faComment" class="icon-feedback" style="color: white;font-size: 28px;"></fa-icon>
   </div>
   <div class="feedback-form-container" *ngIf="isOpen" (click)="$event.stopPropagation()">
     <h2>Phản hồi</h2>

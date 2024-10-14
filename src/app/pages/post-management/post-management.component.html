@@ -1,6 +1,8 @@
 <div class="container mt-5 px-2" *ngIf="!isLoading;else loadingTemplate">
   <div class="header-container">
-    <span><i class="material-icons custom-icon" (click)="openAddPost()">add_circle_outline</i></span>
+    <span>
+      <fa-icon [title]="'Thêm bài viết'" [icon]="faPlus" class="custom-icon" (click)="openAddPost()"></fa-icon>
+    </span>
     <form action="" class="search-form">
       <input type="search" placeholder="Tìm kiếm tên sách..." [formControl]="searchControl" class="form-control" />
       <i class="fa fa-search" aria-hidden="true"></i>
@@ -48,8 +50,11 @@
                 <fa-icon style="font-size: 22px; color: #888282;display: flex;align-items: center;"
                   [icon]="faBars"></fa-icon>
                 <div class="dropdown-menu">
-                  <i class="material-icons dropdown-item " (click)="editPost(post)">edit</i>
-                  <i class="material-icons dropdown-item" (click)="openDeletePost(post)">delete</i>
+                  <fa-icon class="dropdown-item" style="color: blue;" [icon]="faPencil" [title]="'Chỉnh sửa bài viết'"
+                    (click)="editPost(post)"></fa-icon>
+                  <fa-icon class="dropdown-item" style="color: red;" [icon]="faTrashCan" [title]="'Xóa bài viết'"
+                    (click)="openDeletePost(post)"></fa-icon>
+
                 </div>
               </div>
             </div>

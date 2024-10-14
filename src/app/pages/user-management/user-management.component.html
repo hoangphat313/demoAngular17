@@ -21,16 +21,15 @@
           <td class="ellipsis"> {{user.phoneNumber}}</td>
           <td>
             <div style="display: flex;align-items: center;justify-content: center;">
-              <p><mat-slide-toggle [checked]="user.isAdmin" [disabled]="user._id===fixedAdmin"
+              <p><mat-slide-toggle [checked]="user.isAdmin" [title]="'Cấp quyền Admin'" [disabled]="user._id===fixedAdmin"
                   (change)="toggleAdmin(user._id,user.isAdmin)">
                 </mat-slide-toggle></p>
             </div>
           </td>
           <td>
             <div style="display: flex;align-items: center;justify-content: center;">
-              <i class="material-icons"
-                [ngStyle]="{ 'color': user._id=== fixedAdmin ? 'gray' : 'red', 'cursor':user._id ===fixedAdmin ? 'not-allowed' : 'pointer' }"
-                (click)="user._id !==fixedAdmin && openDeleteUser(user)">delete</i>
+              <fa-icon [title]="'Xóa người dùng'" [icon]="faTrashCan"  [ngStyle]="{ 'color': user._id=== fixedAdmin ? 'gray' : 'red', 'cursor':user._id ===fixedAdmin ? 'not-allowed' : 'pointer' }"
+              (click)="user._id !==fixedAdmin && openDeleteUser(user)"></fa-icon>
             </div>
           </td>
         </tr>

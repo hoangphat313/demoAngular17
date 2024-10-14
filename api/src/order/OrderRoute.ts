@@ -1,9 +1,9 @@
 import express, { Router } from 'express';
 import { authenticate, checkIsAdmin } from '../middlewares/authenticate';
 import {
-  deleteOrder,
   getAllOrdersForAdmin,
   getAllOrdersForUser,
+  hideOrder,
   placeOrder,
   searchOrder,
   updateDetailOrder,
@@ -17,7 +17,7 @@ OrderRouter.post('/place', authenticate, placeOrder);
 OrderRouter.get('/getAllOrdersForUser', authenticate, getAllOrdersForUser);
 OrderRouter.put('/update', authenticate, updateDetailOrder);
 //admin && user
-OrderRouter.delete('/delete', authenticate, deleteOrder);
+OrderRouter.delete('/delete', authenticate, hideOrder);
 //admin routes
 OrderRouter.get(
   '/getAllOrdersForAdmin',

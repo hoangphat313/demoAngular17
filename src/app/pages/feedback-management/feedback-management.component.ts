@@ -9,7 +9,7 @@ import { debounceTime, Subscription, switchMap } from 'rxjs';
 import * as bootstrap from 'bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { IconService } from '../../core/services/icon.service';
-import { faBarsProgress } from '@fortawesome/free-solid-svg-icons';
+import { faBarsProgress,faEye,faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 @Component({
   selector: 'app-feedback-management',
@@ -35,6 +35,8 @@ export class FeedbackManagementComponent implements OnInit {
   notificationService = inject(NotificationService);
   iconService = inject(IconService);
   faBars = faBarsProgress;
+  faEye = faEye
+  faTrashCan = faTrashCan
   ngOnInit(): void {
     this.loadFeedbacks();
     this.searchSubscription = this.searchControl.valueChanges

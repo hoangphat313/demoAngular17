@@ -48,10 +48,10 @@ export class OrderService {
       data: IOrderData[];
     }>(`${ApiEndpoint.Order.SearchOrder}?name=${searchTerm}`);
   }
-  deleteOrder(
+  hideOrder(
     orderId: string
-  ): Observable<{ success: boolean; message: string }> {
-    return this._http.delete<{ success: boolean; message: string }>(
+  ): Observable<{ success: boolean; message: string; data: any }> {
+    return this._http.delete<{ success: boolean; message: string; data: any }>(
       `${ApiEndpoint.Order.DeleteOrder}?orderId=${orderId}`
     );
   }

@@ -9,7 +9,8 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, Subscription, switchMap } from 'rxjs';
 import { fixedAdmin } from '../../core/constant/constant';
 import * as bootstrap from 'bootstrap';
-
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-user-management',
   standalone: true,
@@ -18,6 +19,7 @@ import * as bootstrap from 'bootstrap';
     NgxPaginationModule,
     MatSlideToggleModule,
     ReactiveFormsModule,
+    FontAwesomeModule,
   ],
   templateUrl: './user-management.component.html',
   styleUrl: './user-management.component.scss',
@@ -31,7 +33,7 @@ export class UserManagementComponent implements OnInit {
   searchControl = new FormControl();
   private searchSubscription = new Subscription();
   selectedUser: User | null = null;
-
+  faTrashCan = faTrashCan;
   ngOnInit(): void {
     this.loadUsers();
     this.searchSubscription = this.searchControl.valueChanges
@@ -54,7 +56,7 @@ export class UserManagementComponent implements OnInit {
           }
         },
         (error) => {
-          this.notificationService.showNotification(error)
+          this.notificationService.showNotification(error);
         }
       );
   }
@@ -116,11 +118,13 @@ export class UserManagementComponent implements OnInit {
     const newIsAdmin = !currentAdmin;
     this.authService.updateIsAdmin(userId, newIsAdmin).subscribe(
       (response) => {
-        this.notificationService.showNotification('Admin status updated successfully')
+        this.notificationService.showNotification(
+          'Admin status updated successfully'
+        );
         this.loadUsers();
       },
       (error) => {
-       this.notificationService.showNotification('Error updating')
+        this.notificationService.showNotification('Error updating');
       }
     );
   }

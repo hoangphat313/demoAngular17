@@ -15,6 +15,7 @@ export interface IOrder extends Document {
   status: String;
   date: Date;
   paymentMethod: String;
+  isDeleted: Boolean;
 }
 const OrderSchema = new mongoose.Schema<IOrder>({
   userId: {
@@ -37,5 +38,6 @@ const OrderSchema = new mongoose.Schema<IOrder>({
   status: { type: String, default: 'Đang chờ xử lý' },
   date: { type: Date, default: Date.now() },
   paymentMethod: { type: String, default: 'Tiền mặt' },
+  isDeleted: { type: Boolean, default: false },
 });
 export const Order = model<IOrder>('Order', OrderSchema);

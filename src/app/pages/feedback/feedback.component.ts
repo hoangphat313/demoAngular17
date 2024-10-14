@@ -4,16 +4,18 @@ import { NotificationService } from '../../shared/notifications/notification.ser
 import { FeedbackService } from '../../core/services/feedback.service';
 import { FormsModule } from '@angular/forms';
 import { IFeedback } from '../../core/model/common.model';
-
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faComment } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-feedback',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, FontAwesomeModule],
   templateUrl: './feedback.component.html',
   styleUrl: './feedback.component.scss',
 })
 export class FeedbackComponent {
   isOpen: boolean = false;
+  faComment = faComment;
   feedbackData: IFeedback = {
     name: '',
     email: '',
