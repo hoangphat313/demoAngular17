@@ -34,8 +34,8 @@ const OrderSchema = new mongoose.Schema<IOrder>({
     street: { type: String, required: true },
     city: { type: String, required: true },
   },
-  status: { type: String, default: 'Pending' },
+  status: { type: String, default: 'Đang chờ xử lý' },
   date: { type: Date, default: Date.now() },
-  paymentMethod: { type: String, default: 'Cash' },
+  paymentMethod: { type: String, default: 'Tiền mặt' },
 });
 export const Order = model<IOrder>('Order', OrderSchema);

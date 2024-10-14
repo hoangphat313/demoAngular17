@@ -66,9 +66,11 @@ export class LayoutComponent implements OnInit {
   }
   toggleProfile() {
     this.router.navigate(['profile']);
+    this.closeDropdown();
   }
   toggleMyOrders() {
     this.router.navigate(['my-orders']);
+    this.closeDropdown();
   }
   togglePostManagement() {
     if (this.user && this.user.isAdmin) {

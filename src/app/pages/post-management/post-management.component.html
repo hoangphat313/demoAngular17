@@ -1,4 +1,4 @@
-<div class="container mt-5 px-2">
+<div class="container mt-5 px-2" *ngIf="!isLoading;else loadingTemplate">
   <div class="header-container">
     <span><i class="material-icons custom-icon" (click)="openAddPost()">add_circle_outline</i></span>
     <form action="" class="search-form">
@@ -52,7 +52,6 @@
                   <i class="material-icons dropdown-item" (click)="openDeletePost(post)">delete</i>
                 </div>
               </div>
-
             </div>
           </td>
         </tr>
@@ -126,3 +125,11 @@
       </div>
     </div>
   </div>
+</div>
+
+<ng-template #loadingTemplate>
+  <div class="text-center">
+    <ng-lottie style="display: flex;align-items: center;justify-content: center;" class="lottie-animation"
+      [options]="lottieLoadingOptions" width="100px" height="100px" autoplay="true" loop="true"></ng-lottie>
+  </div>
+</ng-template>

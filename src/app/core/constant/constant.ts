@@ -48,6 +48,7 @@ export const ApiEndpoint = {
     UpdateStatusOrder: `${apiUrl}/orders/updateStatus`,
     DeleteOrder: `${apiUrl}/orders/delete`,
     SearchOrder:`${apiUrl}/orders/search`,
+    UpdateUserAddress: `${apiUrl}/orders/update`,
   },
 };
 export const LocalStorage = {

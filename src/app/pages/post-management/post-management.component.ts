@@ -16,11 +16,13 @@ import { debounceTime, Subscription, switchMap } from 'rxjs';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { faBarsProgress } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import * as customBuild from '../../../assets/ckeditorBuild/build/ckeditor';
 import { SafeHtmlPipe } from '../../pipes/safe-html.pipe';
 import { CurrencyFormatDirective } from '../../directives/currency-format.directive';
 import { FormatCurrencyPipe } from '../../pipes/format-currency.pipe';
+
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { LottieComponent } from 'ngx-lottie';
 @Component({
   selector: 'app-post-management',
   imports: [
@@ -32,15 +34,15 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
     CommonModule,
     ReactiveFormsModule,
     NgxPaginationModule,
-
-    CKEditorModule
+    CKEditorModule,
+    LottieComponent,
   ],
   standalone: true,
 
   templateUrl: './post-management.component.html',
   styleUrl: './post-management.component.scss',
 })
-export class PostManagementComponent {
+export class PostManagementComponent implements OnInit  {
   postService = inject(PostService);
   posts: Post[] = [];
   fb = inject(FormBuilder);
@@ -52,7 +54,9 @@ export class PostManagementComponent {
   private searchSubscription = new Subscription();
   avatarPreview: string[] = [];
   faBars = faBarsProgress;
-  public Editor = customBuild;
+  public Editor:any =  ClassicEditor;
+  lottieLoadingOptions: any;
+  isLoading: boolean = true;
 
   constructor(private notificationService: NotificationService) {
     this.postForm = this.fb.group({
@@ -61,6 +65,12 @@ export class PostManagementComponent {
       author: ['', Validators.required],
       price: ['', Validators.required],
     });
+    this.lottieLoadingOptions = {
+      path: 'assets/loading.json',
+      renderer: 'svg',
+      autoplay: true,
+      loop: true,
+    };
   }
   ngOnInit(): void {
     this.loadPosts();
@@ -85,11 +95,14 @@ export class PostManagementComponent {
   }
 
   loadPosts() {
+    this.isLoading = true;
     this.postService.getAllPosts().subscribe(
       (response) => {
+        this.isLoading = false;
         this.posts = response.data;
       },
       (error) => {
+        this.isLoading = false;
         this.notificationService.showNotification('Error fetching posts');
       }
     );

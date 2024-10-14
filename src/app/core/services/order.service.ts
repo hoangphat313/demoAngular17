@@ -64,4 +64,13 @@ export class OrderService {
       { orderId: orderId, status: status }
     );
   }
+  updateUserAddress(
+    orderId: string,
+    address: any
+  ): Observable<{ success: boolean; message: string; data: any }> {
+    return this._http.put<{ success: boolean; message: string; data: any }>(
+      `${ApiEndpoint.Order.UpdateUserAddress}`,
+      { orderId: orderId, address: address }
+    );
+  }
 }

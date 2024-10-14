@@ -15,12 +15,15 @@
               <p class="mb-1"><strong>Tổng Tiền: </strong>{{ order.amount |formatCurrency}}</p>
             </div>
             <div class="btn-edit">
-              <i class="material-icons" [ngStyle]="{ 'color':  'blue', 'cursor' : 'pointer' }">edit</i>
+              <i class="material-icons" [ngStyle]="{
+                  'color': order.status === 'Đang chờ xử lý' ? 'blue' : 'gray',
+                  'cursor': order.status === 'Đang chờ xử lý' ? 'pointer' : 'not-allowed'
+                }" (click)="order.status === 'Đang chờ xử lý' ? openEditAddress(order) : $event.stopPropagation()">
+                edit
+              </i>
             </div>
           </div>
-
         </div>
-
       </div>
     </div>
     <pagination-controls [responsive]="true" previousLabel="" nextLabel="" class="page-control"
@@ -44,3 +47,34 @@
     <button (click)="navigateHome()" class=" btn btn-danger">Tiếp tục mua hàng</button>
   </div>
 </ng-template>
+<!-- Modal edit address -->
+<div class="modal fade" id="editUserAddress" tabindex="-1" aria-labelledby="editUserAddressLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editUserAddressLabel">
+          Chỉnh sửa địa chỉ người dùng</h5>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="updateForm" (ngSubmit)="updateUserAddress()">
+          <div class="mb-3">
+            <label for="houseNumber">Số Nhà:</label>
+            <input id="houseNumber" formControlName="houseNumber" />
+          </div>
+          <div class="mb-3">
+            <label for="street">Đường:</label>
+            <input id="street" formControlName="street" />
+          </div>
+          <div class="mb-3">
+            <label for="city">Thành Phố:</label>
+            <input id="city" formControlName="city" />
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+            <button type="submit" class="btn btn-primary">Cập nhật</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

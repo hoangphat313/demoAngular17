@@ -8,6 +8,9 @@ import { FormatCurrencyPipe } from '../../pipes/format-currency.pipe';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { LottieComponent } from 'ngx-lottie';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import * as bootstrap from 'bootstrap';
+import { NotificationService } from '../../shared/notifications/notification.service';
 
 @Component({
   selector: 'app-my-orders',
@@ -18,6 +21,7 @@ import { Router } from '@angular/router';
     FormatCurrencyPipe,
     MatSlideToggleModule,
     LottieComponent,
+    ReactiveFormsModule,
   ],
   templateUrl: './my-orders.component.html',
   styleUrl: './my-orders.component.scss',
@@ -25,6 +29,7 @@ import { Router } from '@angular/router';
 export class MyOrdersComponent implements OnInit {
   authService = inject(AuthService);
   orderService = inject(OrderService);
+  notification = inject(NotificationService);
   orders: any[] = [];
   user: User | null = null;
   p: number = 1;
@@ -32,8 +37,10 @@ export class MyOrdersComponent implements OnInit {
   lottieLoadingOptions: any;
   lottieOptions: any;
   router = inject(Router);
+  updateForm!: FormGroup;
+  selectOrderId: string | null = null;
 
-  constructor() {
+  constructor(private fb: FormBuilder) {
     this.lottieLoadingOptions = {
       path: 'assets/loading.json',
       renderer: 'svg',
@@ -46,6 +53,11 @@ export class MyOrdersComponent implements OnInit {
       autoplay: true,
       loop: true,
     };
+    this.updateForm = this.fb.group({
+      houseNumber: [''],
+      street: [''],
+      city: [''],
+    });
   }
   ngOnInit(): void {
     this.authService.userDetails().subscribe((response) => {
@@ -55,6 +67,7 @@ export class MyOrdersComponent implements OnInit {
       }
     });
   }
+
   loadAllOrder(): void {
     this.isLoading = true;
     if (this.user && this.user._id) {
@@ -63,6 +76,8 @@ export class MyOrdersComponent implements OnInit {
           this.isLoading = false;
           if (response.success) {
             this.orders = response.data;
+          } else {
+            this.notification.showNotification('Error fetching orders');
           }
         },
         (error) => {
@@ -74,6 +89,53 @@ export class MyOrdersComponent implements OnInit {
   navigateHome(): void {
     if (this.user) {
       this.router.navigate(['']);
+    }
+  }
+  openEditAddress(order: any): void {
+    const modalEl = document.getElementById('editUserAddress');
+    if (modalEl) {
+      const modal = new bootstrap.Modal(modalEl);
+      modal.show();
+      this.selectOrderId = order._id;
+      this.updateForm.patchValue({
+        houseNumber: order.address.houseNumber,
+        street: order.address.street,
+        city: order.address.city,
+      });
+    }
+  }
+  updateUserAddress(): void {
+    if (this.updateForm.valid && this.selectOrderId) {
+      const updatedAddress = {
+        ...this.updateForm.value,
+      };
+      this.orderService
+        .updateUserAddress(this.selectOrderId, updatedAddress)
+        .subscribe(
+          (response) => {
+            if (response.success) {
+              this.notification.showNotification(
+                'Address updated successfully'
+              );
+              this.closeModal();
+              this.loadAllOrder();
+            } else {
+              this.notification.showNotification('Error updating address');
+            }
+          },
+          (error) => {
+            this.notification.showNotification('Error updating address');
+          }
+        );
+    }
+  }
+  closeModal(): void {
+    const modalEl = document.getElementById('editUserAddress');
+    if (modalEl) {
+      const modal = bootstrap.Modal.getInstance(modalEl);
+      if (modal) {
+        modal.hide();
+      }
     }
   }
 }

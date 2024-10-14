@@ -67,7 +67,7 @@ export class CartComponent implements OnInit {
       houseNumber: ['', Validators.required],
       street: ['', Validators.required],
       city: ['', Validators.required],
-      paymentMethod: ['Cash', Validators.required],
+      paymentMethod: ['Tiền mặt', Validators.required],
     });
   }
   loadCartItems(): void {
