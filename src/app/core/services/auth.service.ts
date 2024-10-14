@@ -18,7 +18,6 @@ export class AuthService {
   router = inject(Router);
   isLoggedIn = signal<boolean>(false);
   isAdmin = signal<boolean>(false);
-  
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 
@@ -51,7 +50,10 @@ export class AuthService {
       .pipe(
         map((response) => {
           if (response.status && response.token) {
-            this.notificationService.showNotification('Login successful');
+            this.notificationService.showNotification(
+              'Login successful',
+              'error'
+            );
             localStorage.setItem(LocalStorage.token, response.token);
             this.isLoggedIn.update(() => true);
             if (response.data.isAdmin) {
