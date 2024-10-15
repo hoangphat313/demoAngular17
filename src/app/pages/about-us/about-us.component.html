@@ -38,11 +38,16 @@
                   tác giả để kết nối với những người yêu sách khác.</p>
               </div>
             </div>
-            <button type="button" class="btn btn-outline-primary rounded-pill">Khám phá các sách của chúng
-              tôi</button>
+            <button (click)="toggleOpenForm()" type="button" class="btn btn-outline-primary rounded-pill">Đăng ký nhận ưu đãi mới nhất từ chúng tôi</button>
           </div>
         </div>
       </div>
     </div>
+  </div>
+  <div *ngIf="showForm" class="form-container">
+    <form [formGroup]="emailForm" (ngSubmit)="sendEmail()" class="form-submit">
+      <input type="email" formControlName="email" placeholder="Nhập email của bạn..." class="form-control" required>
+      <button type="submit" class="btn btn-primary"> <fa-icon [icon]="faPaperPlane"></fa-icon></button>
+    </form>
   </div>
 </section>

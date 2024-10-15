@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { LottieComponent } from 'ngx-lottie';
-import { User } from '../../core/model/common.model';
 
 @Component({
   selector: 'app-order-successfully',

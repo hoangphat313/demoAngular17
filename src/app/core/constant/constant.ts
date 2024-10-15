@@ -38,7 +38,7 @@ export const ApiEndpoint = {
     GetCartItems: `${apiUrl}/carts/get`,
     UpdateCart: `${apiUrl}/carts/update`,
     DeleteItem: `${apiUrl}/carts/delete`,
-    ClearCart:`${apiUrl}/carts/clear`
+    ClearCart: `${apiUrl}/carts/clear`,
   },
   Order: {
     PlaceOrder: `${apiUrl}/orders/place`,
@@ -47,8 +47,12 @@ export const ApiEndpoint = {
     GetAllOrdersForAdmin: `${apiUrl}/orders/getAllOrdersForAdmin`,
     UpdateStatusOrder: `${apiUrl}/orders/updateStatus`,
     DeleteOrder: `${apiUrl}/orders/delete`,
-    SearchOrder:`${apiUrl}/orders/search`,
+    SearchOrder: `${apiUrl}/orders/search`,
     UpdateUserAddress: `${apiUrl}/orders/update`,
+  },
+  Email: {
+    SendEmail: `${apiUrl}/email/send-email`,
+    SendEmailOrder: `${apiUrl}/email/send-email-order`,
   },
 };
 export const LocalStorage = {

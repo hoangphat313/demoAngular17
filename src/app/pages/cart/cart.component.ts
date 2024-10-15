@@ -16,6 +16,7 @@ import {
 import { OrderService } from '../../core/services/order.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { EmailService } from '../../core/services/email.service';
 @Component({
   selector: 'app-cart',
   standalone: true,
@@ -37,6 +38,7 @@ export class CartComponent implements OnInit {
   notificationService = inject(NotificationService);
   authService = inject(AuthService);
   orderService = inject(OrderService);
+  mailService = inject(EmailService);
   lottieOptions: any;
   lottieLoadingOptions: any;
   addressForm!: FormGroup;
@@ -179,6 +181,19 @@ export class CartComponent implements OnInit {
           this.notificationService.showNotification(
             'Order placed successfully'
           );
+          this.mailService
+            .sendEmailOrder(this.user.email, orderData.items, this.getTotal(),orderData.address,orderData.paymentMethod)
+            .subscribe((emailResponse) => {
+              if (emailResponse.message) {
+                this.notificationService.showNotification(
+                  'Email sent to customer'
+                );
+              } else {
+                this.notificationService.showNotification(
+                  'Failed to send email to customer'
+                );
+              }
+            });
           this.cartService.clearCart(this.user._id).subscribe(
             (response) => {
               if (response.success) {

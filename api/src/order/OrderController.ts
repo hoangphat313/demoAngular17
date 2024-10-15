@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { IOrder, Order } from './OrderSchema';
 import { ApiResponse } from '../post/PostTypes';
+import { sendEmailConfirmOrder } from '../email/MailController';
 
 const placeOrder = async (req: Request, res: Response, next: NextFunction) => {
   const { userId, items, amount, address, paymentMethod } = req.body;
