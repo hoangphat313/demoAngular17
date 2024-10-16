@@ -13,10 +13,15 @@ import { FeedbackComponent } from '../feedback/feedback.component';
 import { BannerComponent } from '../../shared/banner/banner.component';
 import { FavouriteService } from '../../core/services/favourite.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
+import {
+  faHeart as faHeartSolid,
+  faCartShopping,
+} from '@fortawesome/free-solid-svg-icons';
 import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons';
 import { LottieComponent } from 'ngx-lottie';
 import { FormatCurrencyPipe } from '../../pipes/format-currency.pipe';
+import { CartService } from '../../core/services/cart.service';
+
 @Component({
   selector: 'app-user-favourite',
   standalone: true,
@@ -52,7 +57,9 @@ export class UserFavouriteComponent {
   lottieOptions: any;
   lottieLoadingOptions: any;
   isLoading: boolean = true;
-
+  faCart = faCartShopping;
+  cartService = inject(CartService);
+  quantity: number = 1;
   constructor() {
     this.lottieOptions = {
       path: 'assets/not_found_animation.json',
@@ -85,6 +92,28 @@ export class UserFavouriteComponent {
   navigateHome(): void {
     if (this.user) {
       this.router.navigate(['']);
+    }
+  }
+  addToCart(postId: string) {
+    if (this.user._id) {
+      this.cartService
+        .addToCart(this.user._id, postId, this.quantity)
+        .subscribe(
+          (response) => {
+            if (response.cartData) {
+              this.notificationService.showNotification(response.message);
+            }
+          },
+          (error) => {
+            this.notificationService.showNotification(
+              'Error adding item to cart'
+            );
+          }
+        );
+    } else {
+      this.notificationService.showNotification(
+        'Please login to add items to cart'
+      );
     }
   }
   loadUserFavourites() {

@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
 import { OrderService } from '../../core/services/order.service';
-import { User } from '../../core/model/common.model';
+import { IOrder, User } from '../../core/model/common.model';
 import { CommonModule } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormatCurrencyPipe } from '../../pipes/format-currency.pipe';
@@ -12,7 +12,9 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import * as bootstrap from 'bootstrap';
 import { NotificationService } from '../../shared/notifications/notification.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faPencil } from '@fortawesome/free-solid-svg-icons';
+import { faPencil, faBarsProgress } from '@fortawesome/free-solid-svg-icons';
+import { faEyeSlash } from '@fortawesome/free-regular-svg-icons';
+
 @Component({
   selector: 'app-my-orders',
   standalone: true,
@@ -42,6 +44,10 @@ export class MyOrdersComponent implements OnInit {
   updateForm!: FormGroup;
   selectOrderId: string | null = null;
   faPencil = faPencil;
+  faBars = faBarsProgress;
+  faEyeSlash = faEyeSlash;
+  selectedOrder: IOrder | null = null;
+  notificationService = inject(NotificationService);
 
   constructor(private fb: FormBuilder) {
     this.lottieLoadingOptions = {
@@ -85,6 +91,41 @@ export class MyOrdersComponent implements OnInit {
         },
         (error) => {
           this.isLoading = false;
+        }
+      );
+    }
+  }
+  openDeleteOrder(order: IOrder): void {
+    this.selectedOrder = order;
+    const modalEl = document.getElementById('deleteConfirmModal');
+    if (modalEl) {
+      const modal = new bootstrap.Modal(modalEl);
+      modal.show();
+    }
+  }
+  onHide(): void {
+    if (this.selectedOrder) {
+      this.orderService.hideOrder(this.selectedOrder._id).subscribe(
+        (response) => {
+          if (response.success) {
+            this.orders = this.orders.filter(
+              (p) => p._id !== this.selectedOrder?._id
+            );
+            this.notificationService.showNotification(
+              'Order deleted successfully'
+            );
+            const modalEl = document.getElementById('deleteConfirmModal');
+            if (modalEl) {
+              const modal = bootstrap.Modal.getInstance(modalEl);
+              if (modal) {
+                modal.hide();
+              }
+            }
+            this.selectedOrder = null;
+          }
+        },
+        (error) => {
+          this.notificationService.showNotification(error.message);
         }
       );
     }

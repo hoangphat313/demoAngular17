@@ -12,8 +12,12 @@
             <p class="card-text text-muted">{{post.author}}</p>
             <p class="card-text text-muted"><Strong>Giá Bán:</Strong> {{post.price | formatCurrency}}</p>
             <a class="btn btn-outline-dark btn-sm m-2" (click)="getPostById(post._id)">Xem Chi Tiết</a>
-            <button class="btn btn-outline-danger btn-sm" (click)="toggleFavourite(post._id)">
+            <button class="btn btn-outline-danger btn-sm m-2" (click)="toggleFavourite(post._id)">
               <fa-icon [icon]="favouritePostIds.has(post._id) ?faHeartFilled:faHeart">
+              </fa-icon>
+            </button>
+            <button class="btn btn-outline-success btn-sm" (click)="addToCart(post._id)">
+              <fa-icon [icon]="faCart">
               </fa-icon>
             </button>
           </div>
