@@ -50,10 +50,7 @@ export class AuthService {
       .pipe(
         map((response) => {
           if (response.status && response.token) {
-            this.notificationService.showNotification(
-              'Login successful',
-              'error'
-            );
+            this.notificationService.showNotification('Login successful');
             localStorage.setItem(LocalStorage.token, response.token);
             this.isLoggedIn.update(() => true);
             if (response.data.isAdmin) {

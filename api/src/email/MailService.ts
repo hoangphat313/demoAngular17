@@ -1,6 +1,5 @@
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
-import path from 'path';
 
 dotenv.config();
 const inlineBase64 = require('nodemailer-plugin-inline-base64');
